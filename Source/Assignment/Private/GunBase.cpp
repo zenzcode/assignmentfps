@@ -1,12 +1,12 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
+#include "GunBase.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Components/SceneComponent.h"
 #include "DrawDebugHelpers.h"
 
 #include "ShooterPlayerController.h"
 #include "ShooterPlayerCharacter.h"
-#include "GunBase.h"
 
 // Sets default values
 AGunBase::AGunBase()

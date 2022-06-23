@@ -1,10 +1,9 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
+#include "ShooterPlayerCharacter.h"
 #include "Camera/CameraComponent.h"
-
 #include "../Private/GunBase.h"
 #include "ShooterPlayerController.h"
-#include "ShooterPlayerCharacter.h"
 
 // Sets default values
 AShooterPlayerCharacter::AShooterPlayerCharacter()
