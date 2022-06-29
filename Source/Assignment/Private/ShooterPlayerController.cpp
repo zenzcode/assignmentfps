@@ -3,6 +3,7 @@
 
 #include "ShooterPlayerController.h"
 #include "Components/InputComponent.h"
+#include "Blueprint/UserWidget.h"
 #include "ShooterPlayerCharacter.h"
 
 AShooterPlayerController::AShooterPlayerController() 
@@ -16,8 +17,11 @@ AShooterPlayerController::AShooterPlayerController()
 void AShooterPlayerController::BeginPlay() 
 {
 	Super::BeginPlay();
-
 	GetPawn()->InputComponent = PlayerInputComponent;
+
+	HUDWidget = CreateWidget<UUserWidget, AShooterPlayerController>(this, HUDUserWidget, TEXT("HUD Widget"));
+	if (!HUDWidget) return;
+	HUDWidget->AddToViewport();
 }
 
 void AShooterPlayerController::SetupInputComponent() 

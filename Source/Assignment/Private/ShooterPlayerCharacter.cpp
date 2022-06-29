@@ -2,11 +2,14 @@
 
 #include "ShooterPlayerCharacter.h"
 #include "Camera/CameraComponent.h"
-#include "../Private/GunBase.h"
 #include "ShooterPlayerController.h"
+#include "ShooterAICharacter.h"
+#include "ShooterAIController.h"
+#include "BaseCharacter.h"
+#include "BehaviorTree/BlackboardComponent.h"
 
 // Sets default values
-AShooterPlayerCharacter::AShooterPlayerCharacter()
+AShooterPlayerCharacter::AShooterPlayerCharacter() : ABaseCharacter()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
@@ -17,23 +20,6 @@ AShooterPlayerCharacter::AShooterPlayerCharacter()
 		FirstPersonCamera->SetupAttachment(GetRootComponent());
 		FirstPersonCamera->bUsePawnControlRotation = true;
 		GetMesh()->SetupAttachment(FirstPersonCamera);
-	}
-
-}
-
-// Called when the game starts or when spawned
-void AShooterPlayerCharacter::BeginPlay()
-{
-	Super::BeginPlay();
-	
-
-	if (PlayerGunComponent == nullptr)
-	{
-		FActorSpawnParameters GunSpawnParameters = {};
-		GunSpawnParameters.Owner = this;
-		GunSpawnParameters.Name = TEXT("Player Gun");
-		PlayerGunComponent = GetWorld()->SpawnActor<AGunBase>(PlayerGun, GunSpawnParameters);
-		PlayerGunComponent->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("GripPoint"));
 	}
 }
 
@@ -56,20 +42,19 @@ void AShooterPlayerCharacter::ChangeInputAxis(EInputAxisChange Axis, float Value
 	}
 }
 
-void AShooterPlayerCharacter::CharacterJump() 
+void AShooterPlayerCharacter::HandleHit(FHitResult& ShootResult)
 {
-	if (!CanJump()) return;
-	Jump();
-}
+	Super::HandleHit(ShootResult);
 
-void AShooterPlayerCharacter::CharacterJumpEnd()
-{
-	if (!bClientWasFalling) return;
-	StopJumping();
-}
+	AShooterAICharacter* HitEnemy = Cast<AShooterAICharacter>(ShootResult.GetActor());
+	if (!HitEnemy) return;
+	
+	AShooterAIController* HitController = Cast<AShooterAIController>(HitEnemy->GetController());
+	if (!HitController) return;
 
-void AShooterPlayerCharacter::ShootGun()
-{
-	if (!PlayerGunComponent) return;
-	PlayerGunComponent->Shoot();
+	UBlackboardComponent* Blackboard = HitController->GetBlackboardComponent();
+	if (!Blackboard) return;
+
+	Blackboard->SetValueAsBool("bWasAttacked", true);
+	Blackboard->SetValueAsVector("AttackImpact", ShootResult.ImpactPoint);
 }

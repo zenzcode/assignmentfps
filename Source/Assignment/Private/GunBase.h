@@ -8,6 +8,8 @@
 
 #define OUT
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FReloadRequired);
+
 class USkeletalMeshComponent;
 
 UCLASS()
@@ -21,6 +23,8 @@ public:
 
 	FHitResult Shoot();
 
+protected:
+	virtual void BeginPlay() override;
 public:	
 	UPROPERTY(EditDefaultsOnly)
 	USkeletalMeshComponent* GunMesh;
@@ -33,4 +37,16 @@ public:
 
 	UPROPERTY(EditDefaultsOnly)
 	float ShootRange;
+
+	UPROPERTY(EditDefaultsOnly)
+	float MaxAmmo;
+
+	UPROPERTY(VisibleAnywhere)
+	float Ammo;
+
+	UPROPERTY()
+	bool bReloading;
+
+	UPROPERTY()
+	FReloadRequired ReloadRequired;
 };

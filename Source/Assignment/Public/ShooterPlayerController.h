@@ -17,6 +17,7 @@ enum class EInputAxisChange : uint8
 
 class UInputComponent;
 class AShooterPlayerCharacter;
+class UUserWidget;
 
 /**
  * 
@@ -55,8 +56,15 @@ private:
 	void JumpEnd();
 	void Fire();
 
+public:
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<UUserWidget> HUDUserWidget;
+
 private:
 	UPROPERTY()
 	UInputComponent* PlayerInputComponent;
+
+	UPROPERTY()
+	UUserWidget* HUDWidget;
 	
 };

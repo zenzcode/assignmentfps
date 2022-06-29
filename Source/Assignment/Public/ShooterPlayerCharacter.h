@@ -3,16 +3,15 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Character.h"
+#include "BaseCharacter.h"
 #include "ShooterPlayerCharacter.generated.h"
 
 enum class EInputAxisChange : uint8;
 
 class UCameraComponent;
-class AGunBase;
 
 UCLASS()
-class ASSIGNMENT_API AShooterPlayerCharacter : public ACharacter
+class ASSIGNMENT_API AShooterPlayerCharacter : public ABaseCharacter
 {
 	GENERATED_BODY()
 
@@ -22,28 +21,10 @@ public:
 
 	void ChangeInputAxis(EInputAxisChange Axis, float Value);
 
-	void CharacterJump();
-	void CharacterJumpEnd();
-	void ShootGun();
-
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
+	virtual void HandleHit(FHitResult& ShootResult) override;
 
 private:
 	UPROPERTY(VisibleAnywhere)
 	UCameraComponent* FirstPersonCamera;
-
-	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<AGunBase> PlayerGun;
-
-	UPROPERTY()
-	AGunBase* PlayerGunComponent;
-
-	UPROPERTY(EditDefaultsOnly)
-	float MaxHealth;
-
-	UPROPERTY(VisibleAnywhere)
-	float Health;
 
 };

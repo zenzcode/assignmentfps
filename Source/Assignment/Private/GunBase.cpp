@@ -5,8 +5,7 @@
 #include "Components/SceneComponent.h"
 #include "DrawDebugHelpers.h"
 
-#include "ShooterPlayerController.h"
-#include "ShooterPlayerCharacter.h"
+#include "BaseCharacter.h"
 
 // Sets default values
 AGunBase::AGunBase()
@@ -35,28 +34,42 @@ AGunBase::AGunBase()
 
 FHitResult AGunBase::Shoot()
 {
-	UE_LOG(LogTemp, Warning, TEXT("SHOOT BANG BANG"));
 	FHitResult ShootHit = {};
-	FVector BarrellLocation = GunBarrell->GetComponentLocation();
-	AShooterPlayerCharacter* ActivePlayer = Cast<AShooterPlayerCharacter>(GetOwner());
+
+	Ammo -= 1.f;
+	if (Ammo <= 0 && !bReloading) {
+		Ammo = 0.f;
+		bReloading = true;
+		ReloadRequired.Broadcast();
+		return ShootHit;
+	}
+
+	ABaseCharacter* ActivePlayer = Cast<ABaseCharacter>(GetOwner());
+	FVector ViewLocation;
+	FRotator ViewRotation;
+	ActivePlayer->GetController()->GetPlayerViewPoint(ViewLocation, ViewRotation);
 
 	if (!ActivePlayer) return ShootHit;
 
-	FVector EndPosition = BarrellLocation + (GunBarrell->GetForwardVector() * ShootRange);
+	FVector EndPosition = ViewLocation + (ViewRotation.Vector() * ShootRange);
 
 	FCollisionQueryParams CollisionQueryParams = {};
 	CollisionQueryParams.AddIgnoredActor(this);
 	CollisionQueryParams.AddIgnoredActor(ActivePlayer);
 
-	GetWorld()->LineTraceSingleByChannel(OUT ShootHit, BarrellLocation, EndPosition, ECollisionChannel::ECC_GameTraceChannel1, CollisionQueryParams);
+	GetWorld()->LineTraceSingleByChannel(OUT ShootHit, ViewLocation, EndPosition, ECollisionChannel::ECC_GameTraceChannel1, CollisionQueryParams);
 
 
 	//Debug Draws -> TODO: Check CVAR PlayerController
-	DrawDebugSphere(GetWorld(), BarrellLocation, 5, 16, FColor::Red, false, 1.f, 0, .5f);
+	DrawDebugSphere(GetWorld(), ViewLocation, 5, 16, FColor::Red, false, 1.f, 0, .5f);
 	DrawDebugSphere(GetWorld(), EndPosition, 5, 16, FColor::Yellow, false, 1.f, 0, .5f);
 	DrawDebugSphere(GetWorld(), ShootHit.ImpactPoint, 5, 16, FColor::Green, false, 1.f, 0, .5f);
-	DrawDebugLine(GetWorld(), BarrellLocation, EndPosition, FColor::Cyan, false, 1.f, 0, 1.f);
-
+	DrawDebugLine(GetWorld(), ViewLocation, EndPosition, FColor::Cyan, false, 1.f, 0, 1.f);
 
 	return ShootHit;
+}
+
+void AGunBase::BeginPlay()
+{
+	Ammo = MaxAmmo;
 }
