@@ -20,7 +20,6 @@ AShooterAICharacter::AShooterAICharacter() : ABaseCharacter()
 	bUseControllerRotationYaw = false;
 
 	GetCharacterMovement()->RotationRate = FRotator(0.f, 180.f, 0.f);
-	GetCharacterMovement()->bOrientRotationToMovement = true;
 }
 
 void AShooterAICharacter::PerceptionUpdated(AActor* Actor, FAIStimulus Stimulus)
@@ -34,8 +33,9 @@ void AShooterAICharacter::PerceptionUpdated(AActor* Actor, FAIStimulus Stimulus)
 	if (!Stimulus.WasSuccessfullySensed())
 	{
 		EnemyBlackboard->ClearValue("bHasLineOfSight");
-		EnemyBlackboard->ClearValue("PlayerActor");
+		EnemyBlackboard->ClearValue("bAttacking");
 		EnemyBlackboard->ClearValue("MoveSpeed");
+		EnemyBlackboard->ClearValue("PlayerActor");
 		return;
 	}
 
@@ -43,6 +43,8 @@ void AShooterAICharacter::PerceptionUpdated(AActor* Actor, FAIStimulus Stimulus)
 
 
 	EnemyBlackboard->SetValueAsBool("bHasLineOfSight", Stimulus.WasSuccessfullySensed());
+	EnemyBlackboard->SetValueAsBool("bAttacking", bAttackOnSee);
 	EnemyBlackboard->SetValueAsObject("PlayerActor", Actor);
 	EnemyBlackboard->SetValueAsVector("LastKnownPlayerLocation", Actor->GetActorLocation());
+	UE_LOG(LogTemp, Warning, TEXT("Saw Player"));
 }

@@ -23,6 +23,10 @@ public:
 	UFUNCTION()
 	void PerceptionUpdated(AActor* Actor, FAIStimulus Stimulus);
 
+public:
+	UPROPERTY(EditAnywhere)
+	bool bAttackOnSee;
+
 private:
 	UPROPERTY(EditDefaultsOnly)
 	UAIPerceptionComponent* PerceptionComponent;

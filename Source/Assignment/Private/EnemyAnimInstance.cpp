@@ -23,6 +23,6 @@ void UEnemyAnimInstance::NativeUpdateAnimation(float DeltaTimeX)
 	}
 
 	Speed = OwningEnemy->GetVelocity().Size();
-	Direction = OwningEnemy->GetActorRotation().Pitch;
+	Direction = CalculateDirection(OwningEnemy->GetVelocity(), OwningEnemy->GetActorRotation());
 
 }

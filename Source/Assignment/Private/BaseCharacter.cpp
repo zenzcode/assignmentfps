@@ -26,6 +26,8 @@ void ABaseCharacter::PossessedBy(AController* NewController)
 
 		PlayerGunComponent = GetWorld()->SpawnActor<AGunBase>(PlayerGun, GunSpawnParameters);
 		PlayerGunComponent->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("GripPoint"));
+
+		PlayerGunComponent->ReloadRequired.AddDynamic(this, &ABaseCharacter::ReloadGun);
 	}
 }
 
@@ -50,6 +52,20 @@ void ABaseCharacter::ShootGun()
 	HandleHit(HitResult);
 }
 
+void ABaseCharacter::ReloadGun()
+{
+	if (!PlayerGunComponent) return;
+	if (!PlayerGunComponent->bReloading) return;
+	PlayAnimMontage(FireReloadMontage, 1.f, TEXT("Reload"));
+}
+
+void ABaseCharacter::FinishReload()
+{
+	if (!PlayerGunComponent) return;
+	PlayerGunComponent->bReloading = false;
+	PlayerGunComponent->ResetAmmo();
+}
+
 void ABaseCharacter::HandleHit(FHitResult& ShootResult)
 {
 
@@ -59,9 +75,3 @@ UAnimMontage* ABaseCharacter::GetFireReloadMontage() const
 {
 	return FireReloadMontage;
 }
-
-AGunBase* ABaseCharacter::GetGunComponent() const
-{
-	return PlayerGunComponent;
-}
-

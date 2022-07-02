@@ -57,4 +57,5 @@ void AShooterPlayerCharacter::HandleHit(FHitResult& ShootResult)
 
 	Blackboard->SetValueAsBool("bWasAttacked", true);
 	Blackboard->SetValueAsVector("AttackImpact", ShootResult.ImpactPoint);
+	Blackboard->SetValueAsObject("PlayerActor", this);
 }

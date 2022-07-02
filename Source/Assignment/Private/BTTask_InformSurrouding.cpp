@@ -2,6 +2,10 @@
 
 
 #include "BTTask_InformSurrouding.h"
+#include "EngineUtils.h"
+#include "ShooterAICharacter.h"
+#include "ShooterAIController.h"
+#include "BehaviorTree/BlackboardComponent.h"
 
 UBTTask_InformSurrouding::UBTTask_InformSurrouding()
 {
@@ -12,5 +16,45 @@ EBTNodeResult::Type UBTTask_InformSurrouding::ExecuteTask(UBehaviorTreeComponent
 {
 	Super::ExecuteTask(OwnerComp, NodeMemory);
 
+	UBlackboardComponent* EnemyBlackboard = OwnerComp.GetBlackboardComponent();
+	if (!EnemyBlackboard) return EBTNodeResult::Failed;
+
+	AShooterAIController* OwnerController = Cast<AShooterAIController>(OwnerComp.GetOwner());
+	if (!OwnerController) return EBTNodeResult::Failed;
+
+	AShooterAICharacter* OwnerCharacter = Cast<AShooterAICharacter>(OwnerController->GetPawn());
+	if (!OwnerCharacter) return EBTNodeResult::Failed;
+
+	for (TActorIterator<AShooterAICharacter> EnemyIterator(GetWorld()); EnemyIterator; ++EnemyIterator)
+	{
+		AShooterAICharacter* CurrentEnemyCharacter = *EnemyIterator;
+		if (OwnerCharacter == CurrentEnemyCharacter) continue;
+
+		FVector Distance = OwnerCharacter->GetActorLocation() - CurrentEnemyCharacter->GetActorLocation();
+
+		if (Distance.Size() <= MaxDinstance)
+		{
+			//TODO: Inform
+			AShooterAIController* InformedController = Cast<AShooterAIController>(CurrentEnemyCharacter->GetController());
+			if (!InformedController) continue;
+
+			UBlackboardComponent* InformedBlackboard = InformedController->GetBlackboardComponent();
+			if (!InformedBlackboard) continue;
+
+			UE_LOG(LogTemp, Warning, TEXT("INFORMING: %s"), *CurrentEnemyCharacter->GetName());
+			InformBlackboard(EnemyBlackboard, InformedBlackboard);
+		}
+
+	}
+
 	return EBTNodeResult::Succeeded;
+}
+
+void UBTTask_InformSurrouding::InformBlackboard(UBlackboardComponent* OwnerBlackboard, UBlackboardComponent* InformedBlackboard)
+{
+	AActor* PlayerActor = Cast<AActor>(OwnerBlackboard->GetValueAsObject("PlayerActor"));
+	FVector LastPlayerLocation = OwnerBlackboard->GetValueAsVector("LastKnownPlayerLocation");
+
+	InformedBlackboard->SetValueAsObject("PlayerActor", PlayerActor);
+	InformedBlackboard->SetValueAsVector("LastKnownPlayerLocation", LastPlayerLocation);
 }

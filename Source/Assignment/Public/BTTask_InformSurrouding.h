@@ -6,6 +6,8 @@
 #include "BehaviorTree/Tasks/BTTask_BlackboardBase.h"
 #include "BTTask_InformSurrouding.generated.h"
 
+class UBlackboardComponent;
+
 /**
  * 
  */
@@ -18,4 +20,11 @@ public:
 	UBTTask_InformSurrouding();
 	
 	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
+
+private:
+	void InformBlackboard(UBlackboardComponent* OwnerBlackboard, UBlackboardComponent* InformedBlackboard);
+
+public:
+	UPROPERTY(EditAnywhere)
+	float MaxDinstance;
 };

@@ -21,16 +21,19 @@ public:
 	void CharacterJump();
 	void CharacterJumpEnd();
 	void ShootGun();
+	
+	void FinishReload();
 
 	virtual void HandleHit(FHitResult& ShootResult);
 
 	UAnimMontage* GetFireReloadMontage() const;
 
-	AGunBase* GetGunComponent() const; 
-
 protected:
 	// Called when the game starts or when spawned
 	virtual void PossessedBy(AController* NewController) override;
+
+	UFUNCTION()
+	void ReloadGun();
 
 private:
 	UPROPERTY(EditDefaultsOnly)
