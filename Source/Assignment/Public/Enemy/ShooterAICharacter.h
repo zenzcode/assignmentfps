@@ -8,6 +8,8 @@
 #include "ShooterAICharacter.generated.h"
 
 class UAIPerceptionComponent;
+class UAnimMontage;
+struct FTimerHandle;
 
 /**
  * 
@@ -24,6 +26,10 @@ public:
 	void PerceptionUpdated(AActor* Actor, FAIStimulus Stimulus);
 
 	virtual void HandleHit(FHitResult& ShootHit) override;
+	virtual void Die() override;
+
+private:
+	void DestroyCharacter();
 
 public:
 	UPROPERTY(EditAnywhere)
@@ -32,4 +38,13 @@ public:
 private:
 	UPROPERTY(EditDefaultsOnly)
 	UAIPerceptionComponent* PerceptionComponent;
+
+	UPROPERTY(EditDefaultsOnly)
+	UAnimMontage* DyingMontage;
+
+	UPROPERTY(EditDefaultsOnly)
+	float TimeUntilDestroyAfterDead;
+
+	UPROPERTY()
+	FTimerHandle DestroyCharacterHandle;
 };

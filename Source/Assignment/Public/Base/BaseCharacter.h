@@ -31,10 +31,12 @@ public:
 	void InitializeAbilities();
 
 	virtual void HandleHit(FHitResult& ShootResult);
+	virtual void Die();
 
 
 	UAnimMontage* GetFireReloadMontage() const;
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
+	bool IsCharacterDead() const;
 
 protected:
 	// Called when the game starts or when spawned
@@ -47,6 +49,10 @@ protected:
 public:
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UGameplayEffect> DefaultsEffect;
+
+protected:
+	UPROPERTY(VisibleAnywhere)
+	bool bIsDead;
 
 private:
 	UPROPERTY(EditDefaultsOnly)

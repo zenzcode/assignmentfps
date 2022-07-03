@@ -12,6 +12,8 @@
 #include "Base/BaseCharacter.h"
 #include "Base/GunBase.h"
 #include "GameplayEffect.h"
+#include "Animation/AnimMontage.h"
+#include "Engine/EngineTypes.h"
 
 AShooterAICharacter::AShooterAICharacter() : ABaseCharacter() 
 {
@@ -28,6 +30,7 @@ AShooterAICharacter::AShooterAICharacter() : ABaseCharacter()
 
 void AShooterAICharacter::PerceptionUpdated(AActor* Actor, FAIStimulus Stimulus)
 {
+	if (IsCharacterDead()) return;
 	AShooterAIController* EnemyController = Cast<AShooterAIController>(GetController());
 	if (!EnemyController) return;
 
@@ -38,7 +41,6 @@ void AShooterAICharacter::PerceptionUpdated(AActor* Actor, FAIStimulus Stimulus)
 	{
 		EnemyBlackboard->ClearValue("bHasLineOfSight");
 		EnemyBlackboard->ClearValue("bAttacking");
-		EnemyBlackboard->ClearValue("MoveSpeed");
 		EnemyBlackboard->ClearValue("PlayerActor");
 		return;
 	}
@@ -53,27 +55,34 @@ void AShooterAICharacter::PerceptionUpdated(AActor* Actor, FAIStimulus Stimulus)
 	UE_LOG(LogTemp, Warning, TEXT("Saw Player"));
 }
 
+void AShooterAICharacter::DestroyCharacter()
+{
+	if (!GetGunComponent()) return;
+	GetGunComponent()->Destroy();
+	GetWorld()->GetTimerManager().ClearTimer(DestroyCharacterHandle);
+	Destroy();
+}
+
 void AShooterAICharacter::HandleHit(FHitResult& ShootHit)
 {
+	if (IsCharacterDead()) return;
 	Super::HandleHit(ShootHit);
+}
 
-	AShooterPlayerCharacter* HitCharacter = Cast<AShooterPlayerCharacter>(ShootHit.Actor);
-	if (!HitCharacter) return;
 
-	UAbilitySystemComponent* HitAbilitySystem = HitCharacter->GetAbilitySystemComponent();
-	if (!HitAbilitySystem) return;
+void AShooterAICharacter::Die()
+{
+	Super::Die();
+	if (bIsDead) return;
+	bIsDead = true;
 
-	UAbilitySystemComponent* ExecutorAbilitySystem = GetAbilitySystemComponent();
-	if (!ExecutorAbilitySystem) return;
+	AShooterAIController* EnemyController = Cast<AShooterAIController>(GetController());
+	if (!EnemyController) return;
+	EnemyController->UnPossess();
 
-	AGunBase* ExecutorGun = GetGunComponent();
-	if (!ExecutorGun) return;
-
-	UGameplayEffect* DamageEffect = ExecutorGun->GetWeaponDamageEffect();
-	if (!DamageEffect) return;
-
-	FGameplayEffectContextHandle GameplayContextHandle = ExecutorAbilitySystem->MakeEffectContext();
-	GameplayContextHandle.AddSourceObject(this);
-
-	ExecutorAbilitySystem->ApplyGameplayEffectToTarget(DamageEffect, HitAbilitySystem, 1.f, GameplayContextHandle);
+	if (!DyingMontage) return;
+	PlayAnimMontage(DyingMontage, 1.f, TEXT("Dying"));
+	StopAnimMontage(GetFireReloadMontage());
+	
+	GetWorld()->GetTimerManager().SetTimer(DestroyCharacterHandle, this, &AShooterAICharacter::DestroyCharacter, TimeUntilDestroyAfterDead, false);
 }

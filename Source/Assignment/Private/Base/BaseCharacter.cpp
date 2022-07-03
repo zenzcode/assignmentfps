@@ -45,6 +45,8 @@ void ABaseCharacter::PossessedBy(AController* NewController)
 	AbilitySystem->InitAbilityActorInfo(this, this);
 
 	InitializeAbilities();
+
+	bIsDead = false;
 }
 
 void ABaseCharacter::InitializeAbilities()
@@ -97,7 +99,29 @@ void ABaseCharacter::FinishReload()
 
 void ABaseCharacter::HandleHit(FHitResult& ShootResult)
 {
+	ABaseCharacter* HitCharacter = Cast<ABaseCharacter>(ShootResult.Actor);
+	if (!HitCharacter) return;
 
+	UAbilitySystemComponent* HitAbilitySystem = HitCharacter->GetAbilitySystemComponent();
+	if (!HitAbilitySystem) return;
+
+	UAbilitySystemComponent* ExecutorAbilitySystem = GetAbilitySystemComponent();
+	if (!ExecutorAbilitySystem) return;
+
+	AGunBase* ExecutorGun = GetGunComponent();
+	if (!ExecutorGun) return;
+
+	UGameplayEffect* DamageEffect = ExecutorGun->GetWeaponDamageEffect();
+	if (!DamageEffect) return;
+
+	FGameplayEffectContextHandle GameplayContextHandle = ExecutorAbilitySystem->MakeEffectContext();
+	GameplayContextHandle.AddSourceObject(this);
+
+	ExecutorAbilitySystem->ApplyGameplayEffectToTarget(DamageEffect, HitAbilitySystem, 1.f, GameplayContextHandle);
+}
+
+void ABaseCharacter::Die()
+{
 }
 
 AGunBase* ABaseCharacter::GetGunComponent() const
@@ -113,4 +137,9 @@ UAnimMontage* ABaseCharacter::GetFireReloadMontage() const
 UAbilitySystemComponent* ABaseCharacter::GetAbilitySystemComponent() const
 {
 	return AbilitySystem;
+}
+
+bool ABaseCharacter::IsCharacterDead() const
+{
+	return bIsDead;
 }

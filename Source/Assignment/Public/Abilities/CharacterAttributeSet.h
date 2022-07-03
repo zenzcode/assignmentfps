@@ -17,6 +17,9 @@ class ASSIGNMENT_API UCharacterAttributeSet : public UAttributeSet
 public:
 	UCharacterAttributeSet();
 
+	virtual void PostGameplayEffectExecute(const struct FGameplayEffectModCallbackData& Data) override;
+
+public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	FGameplayAttributeData Health;
 };
