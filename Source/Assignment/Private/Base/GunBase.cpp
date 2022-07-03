@@ -4,7 +4,7 @@
 #include "Components/SkeletalMeshComponent.h"
 #include "Components/SceneComponent.h"
 #include "DrawDebugHelpers.h"
-
+#include "GameplayEffect.h"
 #include "Base/BaseCharacter.h"
 
 // Sets default values
@@ -28,7 +28,6 @@ AGunBase::AGunBase()
 		GunMesh->SetupAttachment(GetRootComponent());
 	}
 
-	Damage = 0;
 	ShootRange = 100;
 }
 
@@ -77,4 +76,9 @@ void AGunBase::ResetAmmo()
 void AGunBase::BeginPlay()
 {
 	ResetAmmo();
+}
+
+UGameplayEffect* AGunBase::GetWeaponDamageEffect()
+{
+	return WeaponDamageEffect.GetDefaultObject();
 }

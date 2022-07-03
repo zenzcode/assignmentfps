@@ -4,6 +4,9 @@
 #include "Base/BaseCharacter.h"
 #include "Animation/AnimMontage.h"
 #include "Base/GunBase.h"
+#include "Abilities/CharacterAbilitySystemComponent.h"
+#include "GameplayEffect.h"
+#include "Abilities/CharacterAttributeSet.h"
 
 // Sets default values
 ABaseCharacter::ABaseCharacter()
@@ -11,7 +14,15 @@ ABaseCharacter::ABaseCharacter()
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 
+	if (AbilitySystem == nullptr)
+	{
+		AbilitySystem = CreateDefaultSubobject<UCharacterAbilitySystemComponent>(TEXT("Character Abilities"));
+	}
 
+	if (CharacterAttributes == nullptr)
+	{
+		CharacterAttributes = CreateDefaultSubobject<UCharacterAttributeSet>(TEXT("Character Attributes"));
+	}
 }
 
 
@@ -29,6 +40,24 @@ void ABaseCharacter::PossessedBy(AController* NewController)
 
 		PlayerGunComponent->ReloadRequired.AddDynamic(this, &ABaseCharacter::ReloadGun);
 	}
+
+	if (!AbilitySystem) return;
+	AbilitySystem->InitAbilityActorInfo(this, this);
+
+	InitializeAbilities();
+}
+
+void ABaseCharacter::InitializeAbilities()
+{
+	if (!AbilitySystem || !DefaultsEffect) return;
+
+	UGameplayEffect* DefaultsGameplayEffect = DefaultsEffect.GetDefaultObject();
+	if (!DefaultsGameplayEffect) return;
+
+	FGameplayEffectContextHandle GameplayEffectHandle = AbilitySystem->MakeEffectContext();
+	GameplayEffectHandle.AddSourceObject(this);
+
+	AbilitySystem->ApplyGameplayEffectToSelf(DefaultsGameplayEffect, 1.f, GameplayEffectHandle);
 }
 
 void ABaseCharacter::CharacterJump()
@@ -71,7 +100,17 @@ void ABaseCharacter::HandleHit(FHitResult& ShootResult)
 
 }
 
+AGunBase* ABaseCharacter::GetGunComponent() const
+{
+	return PlayerGunComponent;
+}
+
 UAnimMontage* ABaseCharacter::GetFireReloadMontage() const
 {
 	return FireReloadMontage;
+}
+
+UAbilitySystemComponent* ABaseCharacter::GetAbilitySystemComponent() const
+{
+	return AbilitySystem;
 }

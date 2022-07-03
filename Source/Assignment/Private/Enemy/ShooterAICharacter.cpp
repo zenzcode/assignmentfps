@@ -7,7 +7,11 @@
 #include "BehaviorTree/BlackboardComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Enemy/ShooterAIController.h"
+#include "Abilities/CharacterAbilitySystemComponent.h"
+#include "Player/ShooterPlayerCharacter.h"
 #include "Base/BaseCharacter.h"
+#include "Base/GunBase.h"
+#include "GameplayEffect.h"
 
 AShooterAICharacter::AShooterAICharacter() : ABaseCharacter() 
 {
@@ -47,4 +51,29 @@ void AShooterAICharacter::PerceptionUpdated(AActor* Actor, FAIStimulus Stimulus)
 	EnemyBlackboard->SetValueAsObject("PlayerActor", Actor);
 	EnemyBlackboard->SetValueAsVector("LastKnownPlayerLocation", Actor->GetActorLocation());
 	UE_LOG(LogTemp, Warning, TEXT("Saw Player"));
+}
+
+void AShooterAICharacter::HandleHit(FHitResult& ShootHit)
+{
+	Super::HandleHit(ShootHit);
+
+	AShooterPlayerCharacter* HitCharacter = Cast<AShooterPlayerCharacter>(ShootHit.Actor);
+	if (!HitCharacter) return;
+
+	UAbilitySystemComponent* HitAbilitySystem = HitCharacter->GetAbilitySystemComponent();
+	if (!HitAbilitySystem) return;
+
+	UAbilitySystemComponent* ExecutorAbilitySystem = GetAbilitySystemComponent();
+	if (!ExecutorAbilitySystem) return;
+
+	AGunBase* ExecutorGun = GetGunComponent();
+	if (!ExecutorGun) return;
+
+	UGameplayEffect* DamageEffect = ExecutorGun->GetWeaponDamageEffect();
+	if (!DamageEffect) return;
+
+	FGameplayEffectContextHandle GameplayContextHandle = ExecutorAbilitySystem->MakeEffectContext();
+	GameplayContextHandle.AddSourceObject(this);
+
+	ExecutorAbilitySystem->ApplyGameplayEffectToTarget(DamageEffect, HitAbilitySystem, 1.f, GameplayContextHandle);
 }

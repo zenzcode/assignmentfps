@@ -23,6 +23,8 @@ public:
 	UFUNCTION()
 	void PerceptionUpdated(AActor* Actor, FAIStimulus Stimulus);
 
+	virtual void HandleHit(FHitResult& ShootHit) override;
+
 public:
 	UPROPERTY(EditAnywhere)
 	bool bAttackOnSee;

@@ -4,13 +4,18 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "AbilitySystemInterface.h"
 #include "BaseCharacter.generated.h"
 
 class AGunBase;
 class UAnimMontage;
+class UAbilitySystemComponent;
+class UCharacterAbilitySystemComponent;
+class UGameplayEffect;
+class UCharacterAttributeSet;
 
 UCLASS()
-class ASSIGNMENT_API ABaseCharacter : public ACharacter
+class ASSIGNMENT_API ABaseCharacter : public ACharacter, public IAbilitySystemInterface
 {
 	GENERATED_BODY()
 
@@ -21,19 +26,27 @@ public:
 	void CharacterJump();
 	void CharacterJumpEnd();
 	void ShootGun();
-	
 	void FinishReload();
+
+	void InitializeAbilities();
 
 	virtual void HandleHit(FHitResult& ShootResult);
 
+
 	UAnimMontage* GetFireReloadMontage() const;
+	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void PossessedBy(AController* NewController) override;
 
+	AGunBase* GetGunComponent() const;
+
 	UFUNCTION()
 	void ReloadGun();
+public:
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<UGameplayEffect> DefaultsEffect;
 
 private:
 	UPROPERTY(EditDefaultsOnly)
@@ -43,12 +56,12 @@ private:
 	AGunBase* PlayerGunComponent;
 
 	UPROPERTY(EditDefaultsOnly)
-	float MaxHealth;
-
-	UPROPERTY(VisibleAnywhere)
-	float Health;
+	UAnimMontage* FireReloadMontage;
 
 	UPROPERTY(EditDefaultsOnly)
-	UAnimMontage* FireReloadMontage;
+	UCharacterAbilitySystemComponent* AbilitySystem;
+
+	UPROPERTY(VisibleAnywhere)
+	UCharacterAttributeSet* CharacterAttributes;
 
 };
