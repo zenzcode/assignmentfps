@@ -28,6 +28,12 @@ public:
 
 	UGameplayEffect* GetWeaponDamageEffect();
 
+	UFUNCTION(BlueprintCallable)
+	float GetMaxAmmo() const;
+
+	UFUNCTION(BlueprintCallable)
+	float GetAmmoLeft() const;
+
 protected:
 	virtual void BeginPlay() override;
 

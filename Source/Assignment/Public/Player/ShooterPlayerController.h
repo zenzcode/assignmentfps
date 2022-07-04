@@ -18,6 +18,7 @@ enum class EInputAxisChange : uint8
 class UInputComponent;
 class AShooterPlayerCharacter;
 class UUserWidget;
+struct FTimerHandle;
 
 /**
  * 
@@ -31,6 +32,7 @@ public:
 	AShooterPlayerController();
 
 	virtual void SetupInputComponent() override;
+	void GameOver(bool bWin);
 
 protected:
 	virtual void BeginPlay() override;
@@ -56,9 +58,17 @@ private:
 	void JumpEnd();
 	void Fire();
 
+	void RestartGame();
+
 public:
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UUserWidget> HUDUserWidget;
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<UUserWidget> LoseUserWidget;
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<UUserWidget> WinUserWidget;
 
 private:
 	UPROPERTY()
@@ -66,5 +76,11 @@ private:
 
 	UPROPERTY()
 	UUserWidget* HUDWidget;
+
+	UPROPERTY()
+	UUserWidget* GameOverWidget;
+
+	UPROPERTY()
+	FTimerHandle RestartTimerHandle;
 	
 };

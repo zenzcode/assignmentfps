@@ -21,6 +21,12 @@ void UCharacterAttributeSet::PostGameplayEffectExecute(const struct FGameplayEff
 
 	float CurrentHealth = Health.GetCurrentValue();
 
+	//All Characters have 100 HP
+	if (CurrentHealth > 100.f)
+	{
+		CurrentHealth = 100.f;
+	}
+
 	if (CurrentHealth <= 0)
 	{
 		HitCharacter->Die();

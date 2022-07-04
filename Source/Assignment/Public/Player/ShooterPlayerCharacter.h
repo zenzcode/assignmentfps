@@ -9,6 +9,7 @@
 enum class EInputAxisChange : uint8;
 
 class UCameraComponent;
+class UGameplayEffect;
 
 UCLASS()
 class ASSIGNMENT_API AShooterPlayerCharacter : public ABaseCharacter
@@ -23,8 +24,15 @@ public:
 
 	virtual void HandleHit(FHitResult& ShootResult) override;
 
+	virtual void Die() override;
+
+	void Heal();
+
 private:
 	UPROPERTY(VisibleAnywhere)
 	UCameraComponent* FirstPersonCamera;
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<UGameplayEffect> HealEffect;
 
 };

@@ -42,6 +42,7 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void PossessedBy(AController* NewController) override;
 
+	UFUNCTION(BlueprintCallable)
 	AGunBase* GetGunComponent() const;
 
 	UFUNCTION()

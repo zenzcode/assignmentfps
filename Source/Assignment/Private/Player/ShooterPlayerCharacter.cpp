@@ -7,6 +7,9 @@
 #include "Enemy/ShooterAIController.h"
 #include "Base/BaseCharacter.h"
 #include "BehaviorTree/BlackboardComponent.h"
+#include "GameMode/ShooterGameMode.h"
+#include "GameplayEffect.h"
+#include "AbilitySystemComponent.h"
 
 // Sets default values
 AShooterPlayerCharacter::AShooterPlayerCharacter() : ABaseCharacter()
@@ -58,4 +61,27 @@ void AShooterPlayerCharacter::HandleHit(FHitResult& ShootResult)
 	Blackboard->SetValueAsBool("bWasAttacked", true);
 	Blackboard->SetValueAsVector("AttackImpact", ShootResult.ImpactPoint);
 	Blackboard->SetValueAsObject("PlayerActor", this);
+}
+
+void AShooterPlayerCharacter::Die()
+{
+	Super::Die();
+
+	AShooterGameMode* ActiveGameMode = GetWorld()->GetAuthGameMode<AShooterGameMode>();
+	if (!ActiveGameMode) return;
+	ActiveGameMode->GameOver(false);
+}
+
+void AShooterPlayerCharacter::Heal()
+{
+	if (!HealEffect) return;
+
+	UAbilitySystemComponent* PlayerAbilitySystem = GetAbilitySystemComponent();
+	if (!PlayerAbilitySystem) return;
+
+	FGameplayEffectContextHandle GameplayContextHandle = PlayerAbilitySystem->MakeEffectContext();
+	GameplayContextHandle.AddSourceObject(this);
+
+	PlayerAbilitySystem->ApplyGameplayEffectToSelf(HealEffect.GetDefaultObject(), 1.f, GameplayContextHandle);
+
 }

@@ -20,9 +20,13 @@ void AShooterPlayerController::BeginPlay()
 	Super::BeginPlay();
 	GetPawn()->InputComponent = PlayerInputComponent;
 
+	FInputModeGameOnly InputMode = {};
+	SetInputMode(InputMode);
+
 	HUDWidget = CreateWidget<UUserWidget, AShooterPlayerController>(this, HUDUserWidget, TEXT("HUD Widget"));
 	if (!HUDWidget) return;
 	HUDWidget->AddToViewport();
+
 }
 
 void AShooterPlayerController::SetupInputComponent() 
@@ -87,6 +91,30 @@ void AShooterPlayerController::Fire()
 	AShooterPlayerCharacter* ActiveCharacter = GetPlayerCharacter();
 	if (!ActiveCharacter) return;
 	ActiveCharacter->ShootGun();
+}
+
+void AShooterPlayerController::GameOver(bool bWin)
+{
+	if (!LoseUserWidget || !WinUserWidget) return;
+
+	if (bWin)
+	{
+		GameOverWidget = CreateWidget<UUserWidget, AShooterPlayerController>(this, WinUserWidget, TEXT("Win Widget"));
+	}
+	else
+	{
+		GameOverWidget = CreateWidget<UUserWidget, AShooterPlayerController>(this, LoseUserWidget, TEXT("Lose Widget"));
+	}
+
+	if (!GameOverWidget) return;
+	GameOverWidget->AddToViewport();
+
+	FInputModeUIOnly WinScreenInputMode = {};
+	WinScreenInputMode.SetLockMouseToViewportBehavior(EMouseLockMode::LockAlways);
+
+	SetInputMode(WinScreenInputMode);
+
+	GetWorld()->GetTimerManager().SetTimer(RestartTimerHandle, this, &AShooterPlayerController::RestartLevel, 5.f, false);
 }
 
 AShooterPlayerCharacter* AShooterPlayerController::GetPlayerCharacter() const

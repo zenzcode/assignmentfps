@@ -14,6 +14,7 @@
 #include "GameplayEffect.h"
 #include "Animation/AnimMontage.h"
 #include "Engine/EngineTypes.h"
+#include "EngineUtils.h"
 
 AShooterAICharacter::AShooterAICharacter() : ABaseCharacter() 
 {
@@ -83,6 +84,13 @@ void AShooterAICharacter::Die()
 	if (!DyingMontage) return;
 	PlayAnimMontage(DyingMontage, 1.f, TEXT("Dying"));
 	StopAnimMontage(GetFireReloadMontage());
+
+	for (TActorIterator<AShooterPlayerCharacter> ActorItr(GetWorld()); ActorItr; ++ActorItr)
+	{
+		AShooterPlayerCharacter* CurrentPlayer = *ActorItr;
+		if (!CurrentPlayer) continue;
+		CurrentPlayer->Heal();
+	}
 	
 	GetWorld()->GetTimerManager().SetTimer(DestroyCharacterHandle, this, &AShooterAICharacter::DestroyCharacter, TimeUntilDestroyAfterDead, false);
 }

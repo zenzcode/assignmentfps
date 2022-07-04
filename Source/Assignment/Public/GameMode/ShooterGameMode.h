@@ -13,5 +13,15 @@ UCLASS()
 class ASSIGNMENT_API AShooterGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
+
+public:
+	void GameOver(bool bWin);
+
+protected:
+	virtual void BeginPlay() override;
+
+private:
+	UPROPERTY()
+	bool bIsGameOver;
 	
 };

@@ -41,7 +41,6 @@ EBTNodeResult::Type UBTTask_InformSurrouding::ExecuteTask(UBehaviorTreeComponent
 			UBlackboardComponent* InformedBlackboard = InformedController->GetBlackboardComponent();
 			if (!InformedBlackboard) continue;
 
-			UE_LOG(LogTemp, Warning, TEXT("INFORMING: %s"), *CurrentEnemyCharacter->GetName());
 			InformBlackboard(EnemyBlackboard, InformedBlackboard);
 		}
 

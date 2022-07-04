@@ -2,7 +2,7 @@
 
 
 #include "BehaviorTree/Task/BTTask_ResetWasAttacked.h"
-#include "BehaviorTree/blackboardComponent.h"
+#include "BehaviorTree/BlackboardComponent.h"
 
 UBTTask_ResetWasAttacked::UBTTask_ResetWasAttacked()
 {

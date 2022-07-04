@@ -77,6 +77,16 @@ void AGunBase::BeginPlay()
 	ResetAmmo();
 }
 
+float AGunBase::GetMaxAmmo() const
+{
+	return MaxAmmo;
+}
+
+float AGunBase::GetAmmoLeft() const
+{
+	return Ammo;
+}
+
 UGameplayEffect* AGunBase::GetWeaponDamageEffect()
 {
 	return WeaponDamageEffect.GetDefaultObject();
