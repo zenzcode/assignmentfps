@@ -9,7 +9,9 @@
 
 class UAIPerceptionComponent;
 class UAnimMontage;
+class UBoxComponent;
 struct FTimerHandle;
+
 
 /**
  * 
@@ -34,6 +36,9 @@ private:
 public:
 	UPROPERTY(EditAnywhere)
 	bool bAttackOnSee;
+
+	UPROPERTY(EditAnywhere)
+	UBoxComponent* GunCollision;
 
 private:
 	UPROPERTY(EditDefaultsOnly)

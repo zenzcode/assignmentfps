@@ -22,7 +22,6 @@ EBTNodeResult::Type UBTTask_SetMovementSpeed::ExecuteTask(UBehaviorTreeComponent
 
 	if (!Blackboard || !OwnerController || !OwnerCharacter) return EBTNodeResult::Failed;
 
-	UE_LOG(LogTemp, Warning, TEXT("New Movement Speed: %f"), NewMovementSpeed);
 	Blackboard->SetValueAsFloat(GetSelectedBlackboardKey(), NewMovementSpeed);
 	OwnerCharacter->GetCharacterMovement()->MaxWalkSpeed = NewMovementSpeed;
 

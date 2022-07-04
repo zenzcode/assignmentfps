@@ -6,6 +6,8 @@
 #include "EnvironmentQuery/Generators/EnvQueryGenerator_ProjectedPoints.h"
 #include "EnvQueryGenerator_PointsBackwards.generated.h"
 
+class UEnvQueryContext;
+
 /**
  * 
  */
@@ -29,4 +31,7 @@ public:
 	
 	UPROPERTY(EditAnywhere)
 	float AngleMinMax;
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<UEnvQueryContext> SpawnContext;
 };

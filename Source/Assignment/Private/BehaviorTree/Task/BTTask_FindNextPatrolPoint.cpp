@@ -31,13 +31,14 @@ EBTNodeResult::Type UBTTask_FindNextPatrolPoint::ExecuteTask(UBehaviorTreeCompon
 	AShooterAICharacter* Character = Cast<AShooterAICharacter>(AIController->GetPawn());
 	if (!Character) return EBTNodeResult::Failed;
 
-
-	FVector NewPatrolPoint = NavigationSystem->GetRandomReachablePointInRadius(GetWorld(), Character->GetActorLocation(), 1000);
-
-	DrawDebugSphere(GetWorld(), NewPatrolPoint, 5, 16, FColor::Emerald, false, 3.f, 0, 1.f);
-
 	UBlackboardComponent* Blackboard = OwnerComp.GetBlackboardComponent();
 	if (!Blackboard) return EBTNodeResult::Failed;
+
+	float PatrolRange = Blackboard->GetValueAsFloat("PatrolRange");
+
+	FVector NewPatrolPoint = NavigationSystem->GetRandomReachablePointInRadius(GetWorld(), Character->GetActorLocation(), PatrolRange);
+
+	DrawDebugSphere(GetWorld(), NewPatrolPoint, 5, 16, FColor::Emerald, false, 3.f, 0, 1.f);
 
 	Blackboard->SetValueAsVector(GetSelectedBlackboardKey(), NewPatrolPoint);
 
