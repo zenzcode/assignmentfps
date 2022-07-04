@@ -14,7 +14,6 @@
 #include "GameplayEffect.h"
 #include "Animation/AnimMontage.h"
 #include "Engine/EngineTypes.h"
-#include "Components/BoxComponent.h"
 
 AShooterAICharacter::AShooterAICharacter() : ABaseCharacter() 
 {
@@ -22,12 +21,6 @@ AShooterAICharacter::AShooterAICharacter() : ABaseCharacter()
 	{
 		PerceptionComponent = CreateDefaultSubobject<UAIPerceptionComponent>(TEXT("Perception"));
 		PerceptionComponent->OnTargetPerceptionUpdated.AddDynamic(this, &AShooterAICharacter::PerceptionUpdated);
-	}
-
-	if (GunCollision == nullptr)
-	{
-		GunCollision = CreateDefaultSubobject<UBoxComponent>(TEXT("Gun Collision"));
-		GunCollision->SetupAttachment(GetMesh(), TEXT("GripPoint"));
 	}
 
 	bUseControllerRotationYaw = false;

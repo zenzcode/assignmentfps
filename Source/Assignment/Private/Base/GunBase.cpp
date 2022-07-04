@@ -59,7 +59,6 @@ FHitResult AGunBase::Shoot()
 	GetWorld()->LineTraceSingleByChannel(OUT ShootHit, ViewLocation, EndPosition, ECollisionChannel::ECC_GameTraceChannel1, CollisionQueryParams);
 
 
-	//Debug Draws -> TODO: Check CVAR PlayerController
 	DrawDebugSphere(GetWorld(), ViewLocation, 5, 16, FColor::Red, false, 1.f, 0, .5f);
 	DrawDebugSphere(GetWorld(), EndPosition, 5, 16, FColor::Yellow, false, 1.f, 0, .5f);
 	DrawDebugSphere(GetWorld(), ShootHit.ImpactPoint, 5, 16, FColor::Green, false, 1.f, 0, .5f);

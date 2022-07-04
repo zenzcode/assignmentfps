@@ -23,8 +23,6 @@ void AShooterPlayerController::BeginPlay()
 	HUDWidget = CreateWidget<UUserWidget, AShooterPlayerController>(this, HUDUserWidget, TEXT("HUD Widget"));
 	if (!HUDWidget) return;
 	HUDWidget->AddToViewport();
-
-	IConsoleManager::Get().RegisterConsoleVariable(TEXT("r.DrawDebugHelpers"), true, TEXT(""), EConsoleVariableFlags::ECVF_Cheat);
 }
 
 void AShooterPlayerController::SetupInputComponent() 
