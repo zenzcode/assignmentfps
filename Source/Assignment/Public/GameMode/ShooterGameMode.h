@@ -17,6 +17,7 @@ class ASSIGNMENT_API AShooterGameMode : public AGameModeBase
 public:
 	void GameOver(bool bWin);
 
+	bool AreDebugHelpersActive() const;
 protected:
 	virtual void BeginPlay() override;
 

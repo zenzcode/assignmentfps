@@ -57,10 +57,10 @@ protected:
 
 private:
 	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<AGunBase> PlayerGun;
+	TSubclassOf<AGunBase> DefaultPlayerGun;
 
 	UPROPERTY()
-	AGunBase* PlayerGunComponent;
+	AGunBase* ActivePlayerGun;
 
 	UPROPERTY(EditDefaultsOnly)
 	UAnimMontage* FireReloadMontage;

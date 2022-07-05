@@ -7,6 +7,7 @@
 #include "Enemy/ShooterAICharacter.h"
 #include "Enemy/ShooterAIController.h"
 #include "DrawDebugHelpers.h"
+#include "GameMode/ShooterGameMode.h"
 
 
 UBTTask_FindNextPatrolPoint::UBTTask_FindNextPatrolPoint()
@@ -38,8 +39,14 @@ EBTNodeResult::Type UBTTask_FindNextPatrolPoint::ExecuteTask(UBehaviorTreeCompon
 
 	FVector NewPatrolPoint = NavigationSystem->GetRandomReachablePointInRadius(GetWorld(), Character->GetActorLocation(), PatrolRange);
 
-	DrawDebugSphere(GetWorld(), NewPatrolPoint, 5, 16, FColor::Emerald, false, 3.f, 0, 1.f);
-
+	AShooterGameMode* GameMode = GetWorld()->GetAuthGameMode<AShooterGameMode>();
+	if (GameMode)
+	{
+		if (GameMode->AreDebugHelpersActive())
+		{
+			DrawDebugSphere(GetWorld(), NewPatrolPoint, 5, 16, FColor::Emerald, false, 3.f, 0, 1.f);
+		}
+	}
 	Blackboard->SetValueAsVector(GetSelectedBlackboardKey(), NewPatrolPoint);
 
 	return EBTNodeResult::Succeeded;

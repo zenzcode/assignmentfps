@@ -10,6 +10,7 @@ class UAnimMontage;
 class UBoxComponent;
 class UPrimitiveComponent;
 class UGameplayEffect;
+class USoundCue;
 struct FHitResult;
 
 /**
@@ -37,6 +38,9 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UGameplayEffect> PunchDamageEffect;
+
+	UPROPERTY(EditDefaultsOnly)
+	USoundCue* PunchSound;
 private:
 	UPROPERTY(EditAnywhere)
 	UBoxComponent* GunCollision;

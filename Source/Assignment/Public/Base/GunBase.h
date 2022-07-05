@@ -12,6 +12,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE(FReloadRequired);
 
 class USkeletalMeshComponent;
 class UGameplayEffect;
+class USoundCue;
 
 UCLASS()
 class AGunBase : public AActor
@@ -42,7 +43,7 @@ public:
 	USkeletalMeshComponent* GunMesh;
 
 	UPROPERTY(EditDefaultsOnly)
-	USceneComponent* GunBarrell;
+	USoundCue* ShootSound;
 
 	UPROPERTY(EditDefaultsOnly)
 	float ShootRange;

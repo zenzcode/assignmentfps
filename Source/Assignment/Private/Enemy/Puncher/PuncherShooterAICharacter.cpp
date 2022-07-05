@@ -7,7 +7,9 @@
 #include "Components/BoxComponent.h"
 #include "Player/ShooterPlayerCharacter.h"
 #include "GameplayEffect.h"
+#include "Kismet/GameplayStatics.h"
 #include "AbilitySystemComponent.h"
+#include "Sound/SoundCue.h"
 
 APuncherShooterAICharacter::APuncherShooterAICharacter() : AShooterAICharacter()
 {
@@ -29,7 +31,6 @@ void APuncherShooterAICharacter::Punch()
 {
 	if (!PunchMontage) return;
 	PlayAnimMontage(PunchMontage, 1.f, TEXT("Punch"));
-	UE_LOG(LogTemp, Warning, TEXT("PUNCHING"));
 }
 
 void APuncherShooterAICharacter::PunchCollision(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
@@ -47,6 +48,8 @@ void APuncherShooterAICharacter::PunchCollision(UPrimitiveComponent* OverlappedC
 	
 	HitAbilitySystem->ApplyGameplayEffectToSelf(PunchDamageEffect.GetDefaultObject(), 1.f, GameplayContextHandle);
 
+	if (!PunchSound) return;
+	UGameplayStatics::SpawnSoundAtLocation(GetWorld(), PunchSound, HitPlayer->GetActorLocation());
 }
 
 void APuncherShooterAICharacter::SetPunching(bool bPunching)

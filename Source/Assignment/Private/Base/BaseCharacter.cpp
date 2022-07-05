@@ -11,7 +11,6 @@
 // Sets default values
 ABaseCharacter::ABaseCharacter()
 {
- 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 
 	if (AbilitySystem == nullptr)
@@ -30,15 +29,15 @@ ABaseCharacter::ABaseCharacter()
 void ABaseCharacter::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);
-	if (PlayerGunComponent == nullptr)
+	if (ActivePlayerGun == nullptr)
 	{
 		FActorSpawnParameters GunSpawnParameters;
 		GunSpawnParameters.Owner = this;
 
-		PlayerGunComponent = GetWorld()->SpawnActor<AGunBase>(PlayerGun, GunSpawnParameters);
-		PlayerGunComponent->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("GripPoint"));
+		ActivePlayerGun = GetWorld()->SpawnActor<AGunBase>(DefaultPlayerGun, GunSpawnParameters);
+		ActivePlayerGun->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("GripPoint"));
 
-		PlayerGunComponent->ReloadRequired.AddDynamic(this, &ABaseCharacter::ReloadGun);
+		ActivePlayerGun->ReloadRequired.AddDynamic(this, &ABaseCharacter::ReloadGun);
 	}
 
 	if (!AbilitySystem) return;
@@ -76,25 +75,25 @@ void ABaseCharacter::CharacterJumpEnd()
 
 void ABaseCharacter::ShootGun()
 {
-	if (!PlayerGunComponent) return;
-	if (PlayerGunComponent->bReloading) return;
+	if (!ActivePlayerGun) return;
+	if (ActivePlayerGun->bReloading) return;
 	PlayAnimMontage(FireReloadMontage, 1.f, TEXT("Fire"));
-	FHitResult HitResult = PlayerGunComponent->Shoot();
+	FHitResult HitResult = ActivePlayerGun->Shoot();
 	HandleHit(HitResult);
 }
 
 void ABaseCharacter::ReloadGun()
 {
-	if (!PlayerGunComponent) return;
-	if (!PlayerGunComponent->bReloading) return;
+	if (!ActivePlayerGun) return;
+	if (!ActivePlayerGun->bReloading) return;
 	PlayAnimMontage(FireReloadMontage, 1.f, TEXT("Reload"));
 }
 
 void ABaseCharacter::FinishReload()
 {
-	if (!PlayerGunComponent) return;
-	PlayerGunComponent->bReloading = false;
-	PlayerGunComponent->ResetAmmo();
+	if (!ActivePlayerGun) return;
+	ActivePlayerGun->bReloading = false;
+	ActivePlayerGun->ResetAmmo();
 }
 
 void ABaseCharacter::HandleHit(FHitResult& ShootResult)
@@ -126,7 +125,7 @@ void ABaseCharacter::Die()
 
 AGunBase* ABaseCharacter::GetGunComponent() const
 {
-	return PlayerGunComponent;
+	return ActivePlayerGun;
 }
 
 UAnimMontage* ABaseCharacter::GetFireReloadMontage() const

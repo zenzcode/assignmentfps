@@ -6,21 +6,18 @@
 #include "DrawDebugHelpers.h"
 #include "GameplayEffect.h"
 #include "Base/BaseCharacter.h"
+#include "Kismet/GameplayStatics.h"
+#include "Sound/SoundCue.h"
+#include "GameMode/ShooterGameMode.h"
+#include "Engine/Engine.h"
 
 // Sets default values
 AGunBase::AGunBase()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 
 	USceneComponent* BaseComponent = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
 	SetRootComponent(BaseComponent);
-
-	if (GunBarrell == nullptr) {
-		GunBarrell = CreateDefaultSubobject<USceneComponent>(TEXT("Barrell"));
-		GunBarrell->SetupAttachment(GetRootComponent());
-	}
-
 
 	if (GunMesh == nullptr)
 	{
@@ -58,11 +55,20 @@ FHitResult AGunBase::Shoot()
 
 	GetWorld()->LineTraceSingleByChannel(OUT ShootHit, ViewLocation, EndPosition, ECollisionChannel::ECC_GameTraceChannel1, CollisionQueryParams);
 
+	AShooterGameMode* GameMode = GetWorld()->GetAuthGameMode<AShooterGameMode>();
+	if (!GameMode) return ShootHit;
+	
+	if (GameMode->AreDebugHelpersActive())
+	{
+		DrawDebugSphere(GetWorld(), ViewLocation, 5, 16, FColor::Red, false, 1.f, 0, .5f);
+		DrawDebugSphere(GetWorld(), EndPosition, 5, 16, FColor::Yellow, false, 1.f, 0, .5f);
+		DrawDebugSphere(GetWorld(), ShootHit.ImpactPoint, 5, 16, FColor::Green, false, 1.f, 0, .5f);
+		DrawDebugLine(GetWorld(), ViewLocation, EndPosition, FColor::Cyan, false, 1.f, 0, 1.f);
+	}
 
-	DrawDebugSphere(GetWorld(), ViewLocation, 5, 16, FColor::Red, false, 1.f, 0, .5f);
-	DrawDebugSphere(GetWorld(), EndPosition, 5, 16, FColor::Yellow, false, 1.f, 0, .5f);
-	DrawDebugSphere(GetWorld(), ShootHit.ImpactPoint, 5, 16, FColor::Green, false, 1.f, 0, .5f);
-	DrawDebugLine(GetWorld(), ViewLocation, EndPosition, FColor::Cyan, false, 1.f, 0, 1.f);
+	if (!ShootSound) return ShootHit;
+
+	UGameplayStatics::SpawnSoundAtLocation(GetWorld(), ShootSound, ActivePlayer->GetActorLocation());
 
 	return ShootHit;
 }
