@@ -8,7 +8,9 @@
 
 class AGunBase;
 
-
+/**
+* Class that handles the Inventory of a Character
+*/
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class ASSIGNMENT_API UInventory : public UActorComponent
 {

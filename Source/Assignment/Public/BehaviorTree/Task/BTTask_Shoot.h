@@ -7,7 +7,7 @@
 #include "BTTask_Shoot.generated.h"
 
 /**
- * 
+ * Task that makes the AI Shoot
  */
 UCLASS()
 class ASSIGNMENT_API UBTTask_Shoot : public UBTTask_BlackboardBase

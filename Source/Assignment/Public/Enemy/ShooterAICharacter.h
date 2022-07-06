@@ -13,7 +13,7 @@ struct FTimerHandle;
 
 
 /**
- * 
+ * The Shooter Character AI that extends the Base Character with AI Functionality
  */
 UCLASS()
 class ASSIGNMENT_API AShooterAICharacter : public ABaseCharacter

@@ -10,6 +10,10 @@ enum class EInputAxisChange : uint8;
 class UCameraComponent;
 class UGameplayEffect;
 
+
+/**
+* Extends Base Character to add functionallity that is only relevant for the Player
+*/
 UCLASS()
 class ASSIGNMENT_API AShooterPlayerCharacter : public ABaseCharacter
 {

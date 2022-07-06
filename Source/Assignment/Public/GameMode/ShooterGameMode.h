@@ -7,7 +7,7 @@
 #include "ShooterGameMode.generated.h"
 
 /**
- * 
+ * Class that extends GameMode Base and handes CVar / GameOver
  */
 UCLASS()
 class ASSIGNMENT_API AShooterGameMode : public AGameModeBase

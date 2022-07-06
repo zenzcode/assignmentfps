@@ -14,7 +14,7 @@ class USoundCue;
 struct FHitResult;
 
 /**
- * 
+ * This Class adds the ability to punch 
  */
 UCLASS()
 class ASSIGNMENT_API APuncherShooterAICharacter : public AShooterAICharacter

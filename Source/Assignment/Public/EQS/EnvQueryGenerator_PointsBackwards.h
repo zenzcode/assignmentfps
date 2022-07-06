@@ -9,7 +9,7 @@
 class UEnvQueryContext;
 
 /**
- * 
+ * Class that Generates Points backwards from a certain actor from context
  */
 UCLASS()
 class ASSIGNMENT_API UEnvQueryGenerator_PointsBackwards : public UEnvQueryGenerator_ProjectedPoints

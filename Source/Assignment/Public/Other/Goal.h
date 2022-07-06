@@ -8,6 +8,9 @@
 
 class UBoxComponent;
 
+/**
+* Actor that acts as the goal for the Level. 
+*/
 UCLASS()
 class ASSIGNMENT_API AGoal : public AActor
 {

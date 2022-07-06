@@ -7,7 +7,7 @@
 #include "PlayerEnvQueryContext.generated.h"
 
 /**
- * 
+ * Context that can be used in EQS and returns the first player found
  */
 UCLASS()
 class ASSIGNMENT_API UPlayerEnvQueryContext : public UEnvQueryContext

@@ -21,7 +21,7 @@ class UUserWidget;
 struct FTimerHandle;
 
 /**
- * 
+ * Player Controller that handles Input and GameOver Call
  */
 UCLASS()
 class ASSIGNMENT_API AShooterPlayerController : public APlayerController

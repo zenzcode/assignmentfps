@@ -7,7 +7,7 @@
 #include "EnvQueryGenerator_AttackPoint.generated.h"
 
 /**
- * 
+ * Class That Generates Points that may be used as  an Attack Point after being in Cover
  */
 UCLASS()
 class ASSIGNMENT_API UEnvQueryGenerator_AttackPoint : public UEnvQueryGenerator_ProjectedPoints

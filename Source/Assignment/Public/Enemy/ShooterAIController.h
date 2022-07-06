@@ -9,7 +9,7 @@
 class UBehaviorTree;
 
 /**
- * 
+ * Simple Class that Sets Up AI Pawn
  */
 UCLASS()
 class ASSIGNMENT_API AShooterAIController : public AAIController
