@@ -26,7 +26,7 @@ AShooterPlayerCharacter::AShooterPlayerCharacter() : ABaseCharacter()
 	}
 }
 
-void AShooterPlayerCharacter::ChangeInputAxis(EInputAxisChange Axis, float Value)
+void AShooterPlayerCharacter::ChangeInputAxis(const EInputAxisChange Axis, const float Value)
 {
 	switch (Axis)
 	{
@@ -89,7 +89,7 @@ void AShooterPlayerCharacter::Die()
 	ActiveGameMode->GameOver(false);
 }
 
-void AShooterPlayerCharacter::Heal()
+void AShooterPlayerCharacter::Heal() const
 {
 
 	if (!HealEffect)

@@ -23,13 +23,13 @@ public:
 	// Sets default values for this character's properties
 	AShooterPlayerCharacter();
 
-	void ChangeInputAxis(EInputAxisChange Axis, float Value);
+	void ChangeInputAxis(const EInputAxisChange Axis, const float Value);
 
 	virtual void HandleHit(const FHitResult& ShootResult) override;
 
 	virtual void Die() override;
 
-	void Heal();
+	void Heal() const;
 
 private:
 	UPROPERTY(VisibleAnywhere)

@@ -73,7 +73,7 @@ EBTNodeResult::Type UBTTask_InformSurrouding::ExecuteTask(UBehaviorTreeComponent
 	return EBTNodeResult::Succeeded;
 }
 
-void UBTTask_InformSurrouding::InformBlackboard(UBlackboardComponent* OwnerBlackboard, UBlackboardComponent* InformedBlackboard)
+void UBTTask_InformSurrouding::InformBlackboard(const UBlackboardComponent* OwnerBlackboard, UBlackboardComponent* InformedBlackboard) const
 {
 	AActor* PlayerActor = Cast<AActor>(OwnerBlackboard->GetValueAsObject("PlayerActor"));
 	FVector LastPlayerLocation = OwnerBlackboard->GetValueAsVector("LastKnownPlayerLocation");

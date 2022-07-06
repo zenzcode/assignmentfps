@@ -32,7 +32,7 @@ public:
 	AShooterPlayerController();
 
 	virtual void SetupInputComponent() override;
-	void GameOver(bool bWin);
+	void GameOver(const bool bWin);
 
 protected:
 	virtual void BeginPlay() override;
@@ -57,8 +57,6 @@ private:
 	void Jump();
 	void JumpEnd();
 	void Fire();
-
-	void RestartGame();
 
 public:
 	UPROPERTY(EditDefaultsOnly)

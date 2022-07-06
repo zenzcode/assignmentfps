@@ -41,8 +41,8 @@ FHitResult AGunBase::Shoot()
 	}
 
 	ABaseCharacter* ActivePlayer = Cast<ABaseCharacter>(GetOwner());
-	FVector ViewLocation;
-	FRotator ViewRotation;
+	FVector ViewLocation = {};
+	FRotator ViewRotation = {};
 	ActivePlayer->GetController()->GetPlayerViewPoint(ViewLocation, ViewRotation);
 
 	if (!ActivePlayer)

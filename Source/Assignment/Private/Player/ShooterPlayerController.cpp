@@ -133,7 +133,7 @@ void AShooterPlayerController::Fire()
 	ActiveCharacter->ShootGun();
 }
 
-void AShooterPlayerController::GameOver(bool bWin)
+void AShooterPlayerController::GameOver(const bool bWin)
 {
 	if (!LoseUserWidget || !WinUserWidget)
 	{

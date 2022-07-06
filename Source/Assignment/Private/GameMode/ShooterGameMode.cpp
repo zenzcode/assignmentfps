@@ -20,7 +20,7 @@ void AShooterGameMode::BeginPlay()
 	IConsoleManager::Get().RegisterConsoleVariable(TEXT("r.DrawDebugHelpers"), false, TEXT("True - Debug Helpers Are Shown / False - Debug Helpers Are not Shown"), EConsoleVariableFlags::ECVF_Cheat);
 }
 
-void AShooterGameMode::GameOver(bool bWin)
+void AShooterGameMode::GameOver(const bool bWin)
 {
 	if (bIsGameOver)
 	{

@@ -15,7 +15,7 @@ class ASSIGNMENT_API AShooterGameMode : public AGameModeBase
 	GENERATED_BODY()
 
 public:
-	void GameOver(bool bWin);
+	void GameOver(const bool bWin);
 
 	bool AreDebugHelpersActive() const;
 protected:

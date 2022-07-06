@@ -22,7 +22,7 @@ public:
 	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
 
 private:
-	void InformBlackboard(UBlackboardComponent* OwnerBlackboard, UBlackboardComponent* InformedBlackboard);
+	void InformBlackboard(const UBlackboardComponent* OwnerBlackboard, UBlackboardComponent* InformedBlackboard) const;
 
 public:
 	UPROPERTY(EditAnywhere)
