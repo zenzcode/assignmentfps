@@ -9,7 +9,7 @@
 class UNavigationSystemV1;
 
 /**
- * 
+ * Task that finds a new Patrol Point in the Blackboard's patrol range
  */
 UCLASS()
 class ASSIGNMENT_API UBTTask_FindNextPatrolPoint : public UBTTask_BlackboardBase

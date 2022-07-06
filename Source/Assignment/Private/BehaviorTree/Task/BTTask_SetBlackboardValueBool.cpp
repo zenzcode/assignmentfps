@@ -14,7 +14,11 @@ EBTNodeResult::Type UBTTask_SetBlackboardValueBool::ExecuteTask(UBehaviorTreeCom
 	Super::ExecuteTask(OwnerComp, NodeMemory);
 
 	UBlackboardComponent* Blackboard = OwnerComp.GetBlackboardComponent();
-	if (!Blackboard) return EBTNodeResult::Failed;
+
+	if (!Blackboard)
+	{
+		return EBTNodeResult::Failed;
+	}
 
 	Blackboard->SetValueAsBool(GetSelectedBlackboardKey(), bNewValue);
 

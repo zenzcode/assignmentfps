@@ -7,7 +7,7 @@
 #include "BTDecorator_DistanceToPlayer.generated.h"
 
 /**
- * 
+ * Decorator for BehaviorTree. Determines Wheter or not the Current Player focused by AI is in specified Range..
  */
 UCLASS()
 class ASSIGNMENT_API UBTDecorator_DistanceToPlayer : public UBTDecorator_BlackboardBase

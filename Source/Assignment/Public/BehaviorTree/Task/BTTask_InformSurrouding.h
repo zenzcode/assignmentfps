@@ -9,7 +9,7 @@
 class UBlackboardComponent;
 
 /**
- * 
+ * Task that informs every AI in the specified Radius about player presence
  */
 UCLASS()
 class ASSIGNMENT_API UBTTask_InformSurrouding : public UBTTask_BlackboardBase

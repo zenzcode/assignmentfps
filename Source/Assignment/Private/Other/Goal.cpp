@@ -30,9 +30,18 @@ void AGoal::BeginPlay()
 void AGoal::OnCollisionOccured(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	AShooterPlayerCharacter* Player = Cast<AShooterPlayerCharacter>(OtherActor);
-	if (!Player) return;
+	
+	if (!Player)
+	{
+		return;
+	}
 
 	AShooterGameMode* GameMode = GetWorld()->GetAuthGameMode<AShooterGameMode>();
-	if (!GameMode) return;
+
+	if (!GameMode)
+	{
+		return;
+	}
+
 	GameMode->GameOver(true);
 }

@@ -10,7 +10,7 @@ class AShooterAIController;
 class AShooterAICharacter;
 
 /**
- * 
+ * Service that updates the LastKnownPlayerLocation every x Seconds 
  */
 UCLASS()
 class ASSIGNMENT_API UBTService_UpdatePlayerLocation : public UBTService_BlackboardBase

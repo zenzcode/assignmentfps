@@ -8,7 +8,7 @@
 #include "EnemyAnimInstance.generated.h"
 
 /**
- * 
+ * Custom Anim Instance for Enemies to use in C++ Code with custom variables
  */
 UCLASS()
 class ASSIGNMENT_API UEnemyAnimInstance : public UAnimInstance

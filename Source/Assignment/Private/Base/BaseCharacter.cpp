@@ -29,6 +29,7 @@ ABaseCharacter::ABaseCharacter()
 void ABaseCharacter::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);
+
 	if (ActivePlayerGun == nullptr)
 	{
 		FActorSpawnParameters GunSpawnParameters;
@@ -40,7 +41,11 @@ void ABaseCharacter::PossessedBy(AController* NewController)
 		ActivePlayerGun->ReloadRequired.AddDynamic(this, &ABaseCharacter::ReloadGun);
 	}
 
-	if (!AbilitySystem) return;
+	if (!AbilitySystem)
+	{
+		return;
+	}
+
 	AbilitySystem->InitAbilityActorInfo(this, this);
 
 	InitializeAbilities();
@@ -48,12 +53,19 @@ void ABaseCharacter::PossessedBy(AController* NewController)
 	bIsDead = false;
 }
 
-void ABaseCharacter::InitializeAbilities()
+void ABaseCharacter::InitializeAbilities() const
 {
-	if (!AbilitySystem || !DefaultsEffect) return;
+	if (!AbilitySystem || !DefaultsEffect)
+	{
+		return;
+	}
 
 	UGameplayEffect* DefaultsGameplayEffect = DefaultsEffect.GetDefaultObject();
-	if (!DefaultsGameplayEffect) return;
+
+	if (!DefaultsGameplayEffect)
+	{
+		return;
+	}
 
 	FGameplayEffectContextHandle GameplayEffectHandle = AbilitySystem->MakeEffectContext();
 	GameplayEffectHandle.AddSourceObject(this);
@@ -63,20 +75,32 @@ void ABaseCharacter::InitializeAbilities()
 
 void ABaseCharacter::CharacterJump()
 {
-	if (!CanJump()) return;
-	Jump();
+	if (CanJump())
+	{
+		Jump();
+	}
 }
 
 void ABaseCharacter::CharacterJumpEnd()
 {
-	if (!bClientWasFalling) return;
-	StopJumping();
+	if (bClientWasFalling)
+	{
+		StopJumping();
+	}
 }
 
 void ABaseCharacter::ShootGun()
 {
-	if (!ActivePlayerGun) return;
-	if (ActivePlayerGun->bReloading) return;
+	if (!ActivePlayerGun)
+	{
+		return;
+	}
+
+	if (ActivePlayerGun->bReloading)
+	{
+		return;
+	}
+
 	PlayAnimMontage(FireReloadMontage, 1.f, TEXT("Fire"));
 	FHitResult HitResult = ActivePlayerGun->Shoot();
 	HandleHit(HitResult);
@@ -84,34 +108,66 @@ void ABaseCharacter::ShootGun()
 
 void ABaseCharacter::ReloadGun()
 {
-	if (!ActivePlayerGun) return;
-	if (!ActivePlayerGun->bReloading) return;
+	if (!ActivePlayerGun)
+	{
+		return;
+	}
+
+	if (!ActivePlayerGun->bReloading)
+	{
+		return;
+	}
+
 	PlayAnimMontage(FireReloadMontage, 1.f, TEXT("Reload"));
 }
 
 void ABaseCharacter::FinishReload()
 {
-	if (!ActivePlayerGun) return;
+	if (!ActivePlayerGun)
+	{
+		return;
+	}
+
 	ActivePlayerGun->bReloading = false;
 	ActivePlayerGun->ResetAmmo();
 }
 
-void ABaseCharacter::HandleHit(FHitResult& ShootResult)
+void ABaseCharacter::HandleHit(const FHitResult& ShootResult)
 {
 	ABaseCharacter* HitCharacter = Cast<ABaseCharacter>(ShootResult.Actor);
-	if (!HitCharacter) return;
+
+	if (!HitCharacter)
+	{
+		return;
+	}
 
 	UAbilitySystemComponent* HitAbilitySystem = HitCharacter->GetAbilitySystemComponent();
-	if (!HitAbilitySystem) return;
+
+	if (!HitAbilitySystem)
+	{
+		return;
+	}
 
 	UAbilitySystemComponent* ExecutorAbilitySystem = GetAbilitySystemComponent();
-	if (!ExecutorAbilitySystem) return;
+
+	if (!ExecutorAbilitySystem)
+	{
+		return;
+	}
 
 	AGunBase* ExecutorGun = GetGunComponent();
-	if (!ExecutorGun) return;
+
+	if (!ExecutorGun)
+	{
+		return;
+	}
 
 	UGameplayEffect* DamageEffect = ExecutorGun->GetWeaponDamageEffect();
-	if (!DamageEffect) return;
+
+	if (!DamageEffect)
+	{
+		return;
+	}
 
 	FGameplayEffectContextHandle GameplayContextHandle = ExecutorAbilitySystem->MakeEffectContext();
 	GameplayContextHandle.AddSourceObject(this);

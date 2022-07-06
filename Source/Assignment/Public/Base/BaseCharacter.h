@@ -14,6 +14,9 @@ class UCharacterAbilitySystemComponent;
 class UGameplayEffect;
 class UCharacterAttributeSet;
 
+/*
+* The Base Class of all Characters that can be found in the game. Contains basic logic every character should have
+*/
 UCLASS()
 class ASSIGNMENT_API ABaseCharacter : public ACharacter, public IAbilitySystemInterface
 {
@@ -28,9 +31,17 @@ public:
 	void ShootGun();
 	void FinishReload();
 
-	void InitializeAbilities();
+	void InitializeAbilities() const;
 
-	virtual void HandleHit(FHitResult& ShootResult);
+	/*
+	* Handle Hit is a function that can be overwritten in the child classes for a custom hit handling.
+	* @param ShootResult - The Shoot Result of the Shot passed by the gun
+	*/
+	virtual void HandleHit(const FHitResult& ShootResult);
+
+	/*
+	* Function that determines what should happen when a character dies. Can be overwritten by children.
+	*/
 	virtual void Die();
 
 

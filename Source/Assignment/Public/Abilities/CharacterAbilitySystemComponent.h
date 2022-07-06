@@ -9,7 +9,7 @@
 class UCharacterAttributeSet;
 
 /**
- * 
+ * Custom Ability System Component used for Health Ability
  */
 UCLASS()
 class ASSIGNMENT_API UCharacterAbilitySystemComponent : public UAbilitySystemComponent
@@ -18,6 +18,4 @@ class ASSIGNMENT_API UCharacterAbilitySystemComponent : public UAbilitySystemCom
 
 public:
 	UCharacterAbilitySystemComponent();
-
-	
 };

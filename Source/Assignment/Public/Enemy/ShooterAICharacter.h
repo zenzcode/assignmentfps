@@ -26,7 +26,7 @@ public:
 	UFUNCTION()
 	void PerceptionUpdated(AActor* Actor, FAIStimulus Stimulus);
 
-	virtual void HandleHit(FHitResult& ShootHit) override;
+	virtual void HandleHit(const FHitResult& ShootHit) override;
 	virtual void Die() override;
 
 private:

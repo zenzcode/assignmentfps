@@ -15,9 +15,17 @@ void UEnvQueryGenerator_PointsBackwards::GenerateItems(FEnvQueryInstance& QueryI
 	TArray<AActor*> Actors;
 	QueryInstance.PrepareContext(SpawnContext.Get(), Actors);
 
-	if (Actors.Num() == 0) return;
+	if (Actors.Num() == 0)
+	{
+		return;
+	}
+
 	AActor* SpawnCharacter = Actors[0];
-	if (!SpawnCharacter) return;
+
+	if (!SpawnCharacter) 
+	{
+		return;
+	}
 
 	FVector SpawnLocation = SpawnCharacter->GetActorLocation();
 	FVector SpawnerBackwardVector = -SpawnCharacter->GetActorForwardVector();

@@ -12,17 +12,30 @@ void AShooterGameMode::BeginPlay()
 
 	bIsGameOver = false;
 
-	if (IConsoleManager::Get().FindConsoleVariable(TEXT("r.DrawDebugHelpers"))) return;
+	if (IConsoleManager::Get().FindConsoleVariable(TEXT("r.DrawDebugHelpers")))
+	{
+		return;
+	}
+
 	IConsoleManager::Get().RegisterConsoleVariable(TEXT("r.DrawDebugHelpers"), false, TEXT("True - Debug Helpers Are Shown / False - Debug Helpers Are not Shown"), EConsoleVariableFlags::ECVF_Cheat);
 }
 
 void AShooterGameMode::GameOver(bool bWin)
 {
-	if (bIsGameOver) return;
+	if (bIsGameOver)
+	{
+		return;
+	}
+
 	for (TBasePlayerControllerIterator<AShooterPlayerController, true> PlayerControllerItr(GetWorld()); PlayerControllerItr; ++PlayerControllerItr)
 	{
 		AShooterPlayerController* CurrentController = *PlayerControllerItr;
-		if (!CurrentController) continue;
+		
+		if (!CurrentController)
+		{
+			continue;
+		}
+
 		CurrentController->GameOver(bWin);
 		bIsGameOver = true;
 	}
@@ -31,6 +44,11 @@ void AShooterGameMode::GameOver(bool bWin)
 bool AShooterGameMode::AreDebugHelpersActive() const
 {
 	IConsoleVariable* DebugHelpersVariable = IConsoleManager::Get().FindConsoleVariable(TEXT("r.DrawDebugHelpers"));
-	if (!DebugHelpersVariable) return false;
+	
+	if (!DebugHelpersVariable)
+	{
+		return false;
+	}
+
 	return DebugHelpersVariable->GetBool();
 }

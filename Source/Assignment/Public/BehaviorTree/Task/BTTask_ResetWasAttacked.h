@@ -7,7 +7,7 @@
 #include "BTTask_ResetWasAttacked.generated.h"
 
 /**
- * 
+ * Task that resets the Wsa Attack Status of an AI. 
  */
 UCLASS()
 class ASSIGNMENT_API UBTTask_ResetWasAttacked : public UBTTask_BlackboardBase

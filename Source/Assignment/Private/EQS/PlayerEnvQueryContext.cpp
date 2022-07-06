@@ -14,7 +14,11 @@ void UPlayerEnvQueryContext::ProvideContext(FEnvQueryInstance& QueryInstance, FE
 	for (TActorIterator<AShooterPlayerCharacter> PlayerItr(GetWorld()); PlayerItr; ++PlayerItr)
 	{
 		AShooterPlayerCharacter* CurrentPlayer = *PlayerItr;
-		if (!CurrentPlayer) continue;
+
+		if (!CurrentPlayer)
+		{
+			continue;
+		}
 
 		UEnvQueryItemType_Actor::SetContextHelper(ContextData, CurrentPlayer);
 		break;

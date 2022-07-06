@@ -7,7 +7,7 @@
 #include "BTTask_AnimatorAttack.generated.h"
 
 /**
- * 
+ * Task that tells the Animator of an Enemy that it is now attacking.
  */
 UCLASS()
 class ASSIGNMENT_API UBTTask_AnimatorAttack : public UBTTask_BlackboardBase

@@ -7,7 +7,7 @@
 #include "AnimNotify_ReloadFinished.generated.h"
 
 /**
- * 
+ * Animation Notify to Notify Character that the Reload is finished
  */
 UCLASS()
 class ASSIGNMENT_API UAnimNotify_ReloadFinished : public UAnimNotify

@@ -15,10 +15,18 @@ EBTNodeResult::Type UBTTask_Punch::ExecuteTask(UBehaviorTreeComponent& OwnerComp
 	Super::ExecuteTask(OwnerComp, NodeMemory);
 
 	AController* PuncherController = Cast<AController>(OwnerComp.GetOwner());
-	if (!PuncherController) return EBTNodeResult::Failed;
+
+	if (!PuncherController)
+	{
+		return EBTNodeResult::Failed;
+	}
 
 	APuncherShooterAICharacter* Puncher = Cast<APuncherShooterAICharacter>(PuncherController->GetPawn());
-	if (!Puncher) return EBTNodeResult::Failed;
+
+	if (!Puncher)
+	{
+		return EBTNodeResult::Failed;
+	}
 
 	Puncher->Punch();
 

@@ -7,7 +7,7 @@
 #include "BTTask_SetBlackboardValueFloat.generated.h"
 
 /**
- * 
+ * Task that sets a specified float value of the blackboard to a new value
  */
 UCLASS()
 class ASSIGNMENT_API UBTTask_SetBlackboardValueFloat : public UBTTask_BlackboardBase

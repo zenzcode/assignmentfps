@@ -17,18 +17,34 @@ EBTNodeResult::Type UBTTask_InformSurrouding::ExecuteTask(UBehaviorTreeComponent
 	Super::ExecuteTask(OwnerComp, NodeMemory);
 
 	UBlackboardComponent* EnemyBlackboard = OwnerComp.GetBlackboardComponent();
-	if (!EnemyBlackboard) return EBTNodeResult::Failed;
+
+	if (!EnemyBlackboard)
+	{
+		return EBTNodeResult::Failed;
+	}
 
 	AShooterAIController* OwnerController = Cast<AShooterAIController>(OwnerComp.GetOwner());
-	if (!OwnerController) return EBTNodeResult::Failed;
+
+	if (!OwnerController)
+	{
+		return EBTNodeResult::Failed;
+	}
 
 	AShooterAICharacter* OwnerCharacter = Cast<AShooterAICharacter>(OwnerController->GetPawn());
-	if (!OwnerCharacter) return EBTNodeResult::Failed;
+
+	if (!OwnerCharacter)
+	{
+		return EBTNodeResult::Failed;
+	}
 
 	for (TActorIterator<AShooterAICharacter> EnemyIterator(GetWorld()); EnemyIterator; ++EnemyIterator)
 	{
 		AShooterAICharacter* CurrentEnemyCharacter = *EnemyIterator;
-		if (OwnerCharacter == CurrentEnemyCharacter) continue;
+
+		if (OwnerCharacter == CurrentEnemyCharacter)
+		{
+			continue;
+		}
 
 		FVector Distance = OwnerCharacter->GetActorLocation() - CurrentEnemyCharacter->GetActorLocation();
 
@@ -36,10 +52,18 @@ EBTNodeResult::Type UBTTask_InformSurrouding::ExecuteTask(UBehaviorTreeComponent
 		{
 			//TODO: Inform
 			AShooterAIController* InformedController = Cast<AShooterAIController>(CurrentEnemyCharacter->GetController());
-			if (!InformedController) continue;
+			
+			if (!InformedController)
+			{
+				continue;
+			}
 
 			UBlackboardComponent* InformedBlackboard = InformedController->GetBlackboardComponent();
-			if (!InformedBlackboard) continue;
+			
+			if (!InformedBlackboard)
+			{
+				continue; 
+			}
 
 			InformBlackboard(EnemyBlackboard, InformedBlackboard);
 		}

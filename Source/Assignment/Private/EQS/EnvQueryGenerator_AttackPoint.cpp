@@ -8,7 +8,11 @@ void UEnvQueryGenerator_AttackPoint::GenerateItems(FEnvQueryInstance& QueryInsta
 	TArray<FNavLocation> GeneratedLocations;
 
 	AActor* EnemyCharacter = Cast<AActor>(QueryInstance.Owner.Get());
-	if (!EnemyCharacter) return;
+
+	if (!EnemyCharacter)
+	{
+		return;
+	}
 
 	FVector OriginLocation = EnemyCharacter->GetActorLocation();
 
@@ -20,7 +24,10 @@ void UEnvQueryGenerator_AttackPoint::GenerateItems(FEnvQueryInstance& QueryInsta
 		FNavLocation PossibleAttackPointLocationRightLeft = FNavLocation(PossibleAttackPointRightLeft);
 		FNavLocation PossibleAttackPointLocationForward = FNavLocation(PossibleAttackPointForwardBack);
 
-		if ((OriginLocation - PossibleAttackPointRightLeft).IsNearlyZero() || (OriginLocation - PossibleAttackPointForwardBack).IsNearlyZero()) continue;
+		if ((OriginLocation - PossibleAttackPointRightLeft).IsNearlyZero() || (OriginLocation - PossibleAttackPointForwardBack).IsNearlyZero())
+		{
+			continue;
+		}
 
 		GeneratedLocations.Add(PossibleAttackPointLocationRightLeft);
 		GeneratedLocations.Add(PossibleAttackPointLocationForward);

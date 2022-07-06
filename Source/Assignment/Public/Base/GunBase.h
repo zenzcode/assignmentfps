@@ -14,6 +14,10 @@ class USkeletalMeshComponent;
 class UGameplayEffect;
 class USoundCue;
 
+
+/*
+* The Base Class of a Gun.
+*/
 UCLASS()
 class AGunBase : public AActor
 {

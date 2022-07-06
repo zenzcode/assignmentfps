@@ -7,7 +7,7 @@
 #include "AnimNotify_StopPunch.generated.h"
 
 /**
- * 
+ * Anim Notify to tell Puncher that he stops punching at a certain time
  */
 UCLASS()
 class ASSIGNMENT_API UAnimNotify_StopPunch : public UAnimNotify

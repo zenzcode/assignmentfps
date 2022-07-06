@@ -45,7 +45,10 @@ FHitResult AGunBase::Shoot()
 	FRotator ViewRotation;
 	ActivePlayer->GetController()->GetPlayerViewPoint(ViewLocation, ViewRotation);
 
-	if (!ActivePlayer) return ShootHit;
+	if (!ActivePlayer)
+	{
+		return ShootHit;
+	}
 
 	FVector EndPosition = ViewLocation + (ViewRotation.Vector() * ShootRange);
 
@@ -56,7 +59,11 @@ FHitResult AGunBase::Shoot()
 	GetWorld()->LineTraceSingleByChannel(OUT ShootHit, ViewLocation, EndPosition, ECollisionChannel::ECC_GameTraceChannel1, CollisionQueryParams);
 
 	AShooterGameMode* GameMode = GetWorld()->GetAuthGameMode<AShooterGameMode>();
-	if (!GameMode) return ShootHit;
+	
+	if (!GameMode)
+	{
+		return ShootHit;
+	}
 	
 	if (GameMode->AreDebugHelpersActive())
 	{
@@ -66,7 +73,10 @@ FHitResult AGunBase::Shoot()
 		DrawDebugLine(GetWorld(), ViewLocation, EndPosition, FColor::Cyan, false, 1.f, 0, 1.f);
 	}
 
-	if (!ShootSound) return ShootHit;
+	if (!ShootSound)
+	{
+		return ShootHit;
+	}
 
 	UGameplayStatics::SpawnSoundAtLocation(GetWorld(), ShootSound, ActivePlayer->GetActorLocation());
 

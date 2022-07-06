@@ -29,26 +29,49 @@ void APuncherShooterAICharacter::BeginPlay()
 
 void APuncherShooterAICharacter::Punch()
 {
-	if (!PunchMontage) return;
+	if (!PunchMontage)
+	{
+		return;
+	}
+
 	PlayAnimMontage(PunchMontage, 1.f, TEXT("Punch"));
 }
 
 void APuncherShooterAICharacter::PunchCollision(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	if (!IsPunching()) return;
+	if (!IsPunching())
+	{
+		return;
+	}
+
 	AShooterPlayerCharacter* HitPlayer = Cast<AShooterPlayerCharacter>(OtherActor);
-	if (!HitPlayer) return;
+	
+	if (!HitPlayer)
+	{
+		return;
+	}
 
 	UAbilitySystemComponent* HitAbilitySystem = HitPlayer->GetAbilitySystemComponent();
-	if (!HitAbilitySystem) return;
+	
+	if (!HitAbilitySystem)
+	{
+		return;
+	}
 
-	if (!PunchDamageEffect) return;
+	if (!PunchDamageEffect)
+	{
+		return;
+	}
 
 	FGameplayEffectContextHandle GameplayContextHandle = HitAbilitySystem->MakeEffectContext();
 	
 	HitAbilitySystem->ApplyGameplayEffectToSelf(PunchDamageEffect.GetDefaultObject(), 1.f, GameplayContextHandle);
 
-	if (!PunchSound) return;
+	if (!PunchSound)
+	{
+		return;
+	}
+
 	UGameplayStatics::SpawnSoundAtLocation(GetWorld(), PunchSound, HitPlayer->GetActorLocation());
 }
 

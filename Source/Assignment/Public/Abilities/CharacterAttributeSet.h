@@ -7,7 +7,7 @@
 #include "CharacterAttributeSet.generated.h"
 
 /**
- * 
+ * Custom Attribute Set that holds the Health Value of the Character and Updates it
  */
 UCLASS()
 class ASSIGNMENT_API UCharacterAttributeSet : public UAttributeSet
@@ -17,6 +17,10 @@ class ASSIGNMENT_API UCharacterAttributeSet : public UAttributeSet
 public:
 	UCharacterAttributeSet();
 
+
+	/*
+	* This function gets called everytime an attribute gets updated. We want to hook in the function to check health/dead state
+	*/
 	virtual void PostGameplayEffectExecute(const struct FGameplayEffectModCallbackData& Data) override;
 
 public:

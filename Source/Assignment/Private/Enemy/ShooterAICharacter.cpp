@@ -31,12 +31,24 @@ AShooterAICharacter::AShooterAICharacter() : ABaseCharacter()
 
 void AShooterAICharacter::PerceptionUpdated(AActor* Actor, FAIStimulus Stimulus)
 {
-	if (IsCharacterDead()) return;
+	if (IsCharacterDead())
+	{
+		return;
+	}
+
 	AShooterAIController* EnemyController = Cast<AShooterAIController>(GetController());
-	if (!EnemyController) return;
+
+	if (!EnemyController)
+	{
+		return;
+	}
 
 	UBlackboardComponent* EnemyBlackboard = EnemyController->GetBlackboardComponent();
-	if (!EnemyBlackboard) return;
+
+	if (!EnemyBlackboard)
+	{
+		return;
+	}
 
 	if (!Stimulus.WasSuccessfullySensed())
 	{
@@ -46,8 +58,10 @@ void AShooterAICharacter::PerceptionUpdated(AActor* Actor, FAIStimulus Stimulus)
 		return;
 	}
 
-	if (!Actor->Tags.Contains(TEXT("Player"))) return;
-
+	if (!Actor->Tags.Contains(TEXT("Player")))
+	{
+		return;
+	}
 
 	EnemyBlackboard->SetValueAsBool("bHasLineOfSight", Stimulus.WasSuccessfullySensed());
 	EnemyBlackboard->SetValueAsBool("bAttacking", bAttackOnSee);
@@ -58,15 +72,17 @@ void AShooterAICharacter::PerceptionUpdated(AActor* Actor, FAIStimulus Stimulus)
 
 void AShooterAICharacter::DestroyCharacter()
 {
-	if (!GetGunComponent()) return;
-	GetGunComponent()->Destroy();
 	GetWorld()->GetTimerManager().ClearTimer(DestroyCharacterHandle);
 	Destroy();
 }
 
-void AShooterAICharacter::HandleHit(FHitResult& ShootHit)
+void AShooterAICharacter::HandleHit(const FHitResult& ShootHit)
 {
-	if (IsCharacterDead()) return;
+	if (IsCharacterDead())
+	{
+		return;
+	}
+
 	Super::HandleHit(ShootHit);
 }
 
@@ -74,21 +90,40 @@ void AShooterAICharacter::HandleHit(FHitResult& ShootHit)
 void AShooterAICharacter::Die()
 {
 	Super::Die();
-	if (bIsDead) return;
+
+	if (IsCharacterDead())
+	{
+		return;
+	}
+
 	bIsDead = true;
 
 	AShooterAIController* EnemyController = Cast<AShooterAIController>(GetController());
-	if (!EnemyController) return;
+
+	if (!EnemyController)
+	{
+		return;
+	}
+
 	EnemyController->UnPossess();
 
-	if (!DyingMontage) return;
+	if (!DyingMontage)
+	{
+		return;
+	}
+
 	PlayAnimMontage(DyingMontage, 1.f, TEXT("Dying"));
 	StopAnimMontage(GetFireReloadMontage());
 
 	for (TActorIterator<AShooterPlayerCharacter> ActorItr(GetWorld()); ActorItr; ++ActorItr)
 	{
 		AShooterPlayerCharacter* CurrentPlayer = *ActorItr;
-		if (!CurrentPlayer) continue;
+
+		if (!CurrentPlayer)
+		{
+			continue;
+		}
+
 		CurrentPlayer->Heal();
 	}
 	

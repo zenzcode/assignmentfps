@@ -7,7 +7,7 @@
 #include "AnimNotify_StartPunch.generated.h"
 
 /**
- * 
+ * Anim Notify to tell Puncher that he is punching at a certain point
  */
 UCLASS()
 class ASSIGNMENT_API UAnimNotify_StartPunch : public UAnimNotify

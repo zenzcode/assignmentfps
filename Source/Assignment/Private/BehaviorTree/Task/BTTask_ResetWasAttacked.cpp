@@ -15,7 +15,11 @@ EBTNodeResult::Type UBTTask_ResetWasAttacked::ExecuteTask(UBehaviorTreeComponent
 	Super::ExecuteTask(OwnerComp, NodeMemory);
 
 	UBlackboardComponent* Blackboard = OwnerComp.GetBlackboardComponent();
-	if (!Blackboard) return EBTNodeResult::Failed;
+
+	if (!Blackboard)
+	{
+		return EBTNodeResult::Failed;
+	}
 
 	Blackboard->ClearValue(GetSelectedBlackboardKey());
 

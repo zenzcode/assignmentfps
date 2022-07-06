@@ -7,7 +7,7 @@
 #include "BTTask_SetBlackboardValueBool.generated.h"
 
 /**
- * 
+ * Task that sets a boolean value of the blackboard to a new value
  */
 UCLASS()
 class ASSIGNMENT_API UBTTask_SetBlackboardValueBool : public UBTTask_BlackboardBase

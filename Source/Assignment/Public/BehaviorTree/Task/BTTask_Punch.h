@@ -7,7 +7,7 @@
 #include "BTTask_Punch.generated.h"
 
 /**
- * 
+ * Task that makes the Character Punch
  */
 UCLASS()
 class ASSIGNMENT_API UBTTask_Punch : public UBTTask_BlackboardBase

@@ -9,6 +9,11 @@ void UAnimNotify_ReloadFinished::Notify(USkeletalMeshComponent* MeshComp, UAnimS
 	Super::Notify(MeshComp, Animation);
 
 	ABaseCharacter* ReloadingCharacter = Cast<ABaseCharacter>(MeshComp->GetOwner());
-	if (!ReloadingCharacter) return;
+
+	if (!ReloadingCharacter)
+	{
+		return;
+	}
+
 	ReloadingCharacter->FinishReload();
 }

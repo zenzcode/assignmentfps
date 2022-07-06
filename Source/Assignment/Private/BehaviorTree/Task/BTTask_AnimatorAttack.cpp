@@ -16,13 +16,25 @@ EBTNodeResult::Type UBTTask_AnimatorAttack::ExecuteTask(UBehaviorTreeComponent& 
 	Super::ExecuteTask(OwnerComp, NodeMemory);
 
 	AShooterAIController* EnemyController = Cast<AShooterAIController>(OwnerComp.GetOwner());
-	if (!EnemyController) return EBTNodeResult::Failed;
+
+	if (!EnemyController)
+	{
+		return EBTNodeResult::Failed;
+	}
 
 	AShooterAICharacter* EnemyCharacter = Cast<AShooterAICharacter>(EnemyController->GetPawn());
-	if (!EnemyCharacter) return EBTNodeResult::Failed;
+
+	if (!EnemyCharacter)
+	{
+		return EBTNodeResult::Failed;
+	}
 
 	UEnemyAnimInstance* EnemyAnimInstance = Cast<UEnemyAnimInstance>(EnemyCharacter->GetMesh()->GetAnimInstance());
-	if (!EnemyAnimInstance) return EBTNodeResult::Failed;
+
+	if (!EnemyAnimInstance)
+	{
+		return EBTNodeResult::Failed;
+	}
 
 	EnemyAnimInstance->bAttacking = bNewValue;
 

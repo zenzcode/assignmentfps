@@ -10,7 +10,11 @@ void UAnimNotify_StopPunch::Notify(USkeletalMeshComponent* MeshComp, UAnimSequen
 	Super::Notify(MeshComp, Animation);
 
 	APuncherShooterAICharacter* Puncher = Cast<APuncherShooterAICharacter>(MeshComp->GetOwner());
-	if (!Puncher) return;
+
+	if (!Puncher)
+	{
+		return;
+	}
 
 	Puncher->SetPunching(false);
 }

@@ -7,7 +7,6 @@
 #include "ShooterPlayerCharacter.generated.h"
 
 enum class EInputAxisChange : uint8;
-
 class UCameraComponent;
 class UGameplayEffect;
 
@@ -22,7 +21,7 @@ public:
 
 	void ChangeInputAxis(EInputAxisChange Axis, float Value);
 
-	virtual void HandleHit(FHitResult& ShootResult) override;
+	virtual void HandleHit(const FHitResult& ShootResult) override;
 
 	virtual void Die() override;
 

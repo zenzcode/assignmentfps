@@ -17,7 +17,11 @@ void UCharacterAttributeSet::PostGameplayEffectExecute(const struct FGameplayEff
 	Super::PostGameplayEffectExecute(Data);
 
 	ABaseCharacter* HitCharacter = Cast<ABaseCharacter>(Data.Target.GetOwner());
-	if (!HitCharacter) return;
+
+	if (!HitCharacter) 
+	{
+		return;
+	}
 
 	float CurrentHealth = Health.GetCurrentValue();
 

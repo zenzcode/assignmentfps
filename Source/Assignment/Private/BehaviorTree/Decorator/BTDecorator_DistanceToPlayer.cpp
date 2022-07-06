@@ -12,14 +12,25 @@ UBTDecorator_DistanceToPlayer::UBTDecorator_DistanceToPlayer()
 bool UBTDecorator_DistanceToPlayer::CalculateRawConditionValue(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) const
 {
 	UBlackboardComponent* Blackboard = OwnerComp.GetBlackboardComponent();
-	if (!Blackboard) return false;
+	
+	if (!Blackboard)
+	{
+		return false;
+	}
 
 	AActor* Enemy = OwnerComp.GetOwner();
-	if (!Enemy) return false;
+	
+	if (!Enemy)
+	{
+		return false;
+	}
 
 	AActor* Other = Cast<AActor>(Blackboard->GetValueAsObject(GetSelectedBlackboardKey()));
-	if (!Other) return false;
-
+	
+	if (!Other)
+	{
+		return false;
+	}
 
 	FVector Distance = Enemy->GetActorLocation() - Other->GetActorLocation();
 

@@ -24,7 +24,12 @@ void AShooterPlayerController::BeginPlay()
 	SetInputMode(InputMode);
 
 	HUDWidget = CreateWidget<UUserWidget, AShooterPlayerController>(this, HUDUserWidget, TEXT("HUD Widget"));
-	if (!HUDWidget) return;
+
+	if (!HUDWidget)
+	{
+		return;
+	}
+
 	HUDWidget->AddToViewport();
 
 }
@@ -47,55 +52,93 @@ void AShooterPlayerController::SetupInputComponent()
 void AShooterPlayerController::SendMoveForwardToCharacter(float Value)
 {
 	AShooterPlayerCharacter* ActiveCharacter = GetPlayerCharacter();
-	if (!ActiveCharacter) return;
+
+	if (!ActiveCharacter)
+	{
+		return;
+	}
+
 	ActiveCharacter->ChangeInputAxis(EInputAxisChange::EMoveForwards, Value);
 }
 
 void AShooterPlayerController::SendMoveRightToCharacter(float Value)
 {
 	AShooterPlayerCharacter* ActiveCharacter = GetPlayerCharacter();
-	if (!ActiveCharacter) return;
+
+	if (!ActiveCharacter)
+	{
+		return;
+	}
+
 	ActiveCharacter->ChangeInputAxis(EInputAxisChange::EMoveSideways, Value);
 }
 
 void AShooterPlayerController::SendLookAroundToCharacter(float Value)
 {
 	AShooterPlayerCharacter* ActiveCharacter = GetPlayerCharacter();
-	if (!ActiveCharacter) return;
+
+	if (!ActiveCharacter)
+	{
+		return;
+	}
+
 	ActiveCharacter->ChangeInputAxis(EInputAxisChange::ELookX, Value);
 }
 
 void AShooterPlayerController::SendLookUpToCharacter(float Value)
 {
 	AShooterPlayerCharacter* ActiveCharacter = GetPlayerCharacter();
-	if (!ActiveCharacter) return;
+
+	if (!ActiveCharacter)
+	{
+		return;
+	}
+
 	ActiveCharacter->ChangeInputAxis(EInputAxisChange::ELookY, Value);
 }
 
 void AShooterPlayerController::Jump()
 {
 	AShooterPlayerCharacter* ActiveCharacter = GetPlayerCharacter();
-	if (!ActiveCharacter) return;
+
+	if (!ActiveCharacter)
+	{
+		return;
+	}
+
 	ActiveCharacter->CharacterJump();
 }
 
 void AShooterPlayerController::JumpEnd()
 {
 	AShooterPlayerCharacter* ActiveCharacter = GetPlayerCharacter();
-	if (!ActiveCharacter) return;
+
+	if (!ActiveCharacter)
+	{
+		return;
+	}
+
 	ActiveCharacter->CharacterJumpEnd();
 }
 
 void AShooterPlayerController::Fire()
 {
 	AShooterPlayerCharacter* ActiveCharacter = GetPlayerCharacter();
-	if (!ActiveCharacter) return;
+
+	if (!ActiveCharacter)
+	{
+		return;
+	}
+
 	ActiveCharacter->ShootGun();
 }
 
 void AShooterPlayerController::GameOver(bool bWin)
 {
-	if (!LoseUserWidget || !WinUserWidget) return;
+	if (!LoseUserWidget || !WinUserWidget)
+	{
+		return;
+	}
 
 	if (bWin)
 	{
@@ -106,7 +149,11 @@ void AShooterPlayerController::GameOver(bool bWin)
 		GameOverWidget = CreateWidget<UUserWidget, AShooterPlayerController>(this, LoseUserWidget, TEXT("Lose Widget"));
 	}
 
-	if (!GameOverWidget) return;
+	if (!GameOverWidget)
+	{
+		return;
+	}
+
 	GameOverWidget->AddToViewport();
 
 	FInputModeUIOnly WinScreenInputMode = {};

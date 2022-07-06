@@ -13,8 +13,6 @@
 UBTTask_FindNextPatrolPoint::UBTTask_FindNextPatrolPoint()
 {
 	NodeName = TEXT("Find Next Patrol Point");
-
-	//TOOO: Filter Vector
 }
 
 EBTNodeResult::Type UBTTask_FindNextPatrolPoint::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
@@ -27,13 +25,25 @@ EBTNodeResult::Type UBTTask_FindNextPatrolPoint::ExecuteTask(UBehaviorTreeCompon
 	}
 
 	AShooterAIController* AIController = Cast<AShooterAIController>(OwnerComp.GetOwner());
-	if (!AIController) return EBTNodeResult::Failed;
+
+	if (!AIController)
+	{
+		return EBTNodeResult::Failed;
+	}
 
 	AShooterAICharacter* Character = Cast<AShooterAICharacter>(AIController->GetPawn());
-	if (!Character) return EBTNodeResult::Failed;
+
+	if (!Character)
+	{
+		return EBTNodeResult::Failed;
+	}
 
 	UBlackboardComponent* Blackboard = OwnerComp.GetBlackboardComponent();
-	if (!Blackboard) return EBTNodeResult::Failed;
+
+	if (!Blackboard)
+	{
+		return EBTNodeResult::Failed;
+	}
 
 	float PatrolRange = Blackboard->GetValueAsFloat("PatrolRange");
 

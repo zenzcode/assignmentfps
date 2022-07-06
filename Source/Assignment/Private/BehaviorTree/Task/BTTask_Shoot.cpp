@@ -15,10 +15,18 @@ EBTNodeResult::Type UBTTask_Shoot::ExecuteTask(UBehaviorTreeComponent& OwnerComp
 	Super::ExecuteTask(OwnerComp, NodeMemory);
 
 	AShooterAIController* EnemyController = Cast<AShooterAIController>(OwnerComp.GetOwner());
-	if (!EnemyController) return EBTNodeResult::Failed;
+
+	if (!EnemyController)
+	{
+		return EBTNodeResult::Failed;
+	}
 
 	AShooterAICharacter* EnemyCharacter = Cast<AShooterAICharacter>(EnemyController->GetPawn());
-	if (!EnemyCharacter) return EBTNodeResult::Failed;
+
+	if (!EnemyCharacter)
+	{
+		return EBTNodeResult::Failed;
+	}
 
 	EnemyCharacter->ShootGun();
 	return EBTNodeResult::Succeeded;

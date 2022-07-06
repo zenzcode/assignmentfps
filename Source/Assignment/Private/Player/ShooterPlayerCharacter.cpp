@@ -45,18 +45,30 @@ void AShooterPlayerCharacter::ChangeInputAxis(EInputAxisChange Axis, float Value
 	}
 }
 
-void AShooterPlayerCharacter::HandleHit(FHitResult& ShootResult)
+void AShooterPlayerCharacter::HandleHit(const FHitResult& ShootResult)
 {
 	Super::HandleHit(ShootResult);
 
 	AShooterAICharacter* HitEnemy = Cast<AShooterAICharacter>(ShootResult.GetActor());
-	if (!HitEnemy) return;
+
+	if (!HitEnemy)
+	{
+		return;
+	}
 	
 	AShooterAIController* HitController = Cast<AShooterAIController>(HitEnemy->GetController());
-	if (!HitController) return;
+
+	if (!HitController)
+	{
+		return;
+	}
 
 	UBlackboardComponent* Blackboard = HitController->GetBlackboardComponent();
-	if (!Blackboard) return;
+
+	if (!Blackboard)
+	{
+		return;
+	}
 
 	Blackboard->SetValueAsBool("bWasAttacked", true);
 	Blackboard->SetValueAsVector("AttackImpact", ShootResult.ImpactPoint);
@@ -68,16 +80,29 @@ void AShooterPlayerCharacter::Die()
 	Super::Die();
 
 	AShooterGameMode* ActiveGameMode = GetWorld()->GetAuthGameMode<AShooterGameMode>();
-	if (!ActiveGameMode) return;
+	
+	if (!ActiveGameMode)
+	{
+		return;
+	}
+
 	ActiveGameMode->GameOver(false);
 }
 
 void AShooterPlayerCharacter::Heal()
 {
-	if (!HealEffect) return;
+
+	if (!HealEffect)
+	{
+		return;
+	}
 
 	UAbilitySystemComponent* PlayerAbilitySystem = GetAbilitySystemComponent();
-	if (!PlayerAbilitySystem) return;
+
+	if (!PlayerAbilitySystem)
+	{
+		return;
+	}
 
 	FGameplayEffectContextHandle GameplayContextHandle = PlayerAbilitySystem->MakeEffectContext();
 	GameplayContextHandle.AddSourceObject(this);

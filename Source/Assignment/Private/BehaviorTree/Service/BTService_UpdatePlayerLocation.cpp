@@ -23,23 +23,42 @@ void UBTService_UpdatePlayerLocation::OnBecomeRelevant(UBehaviorTreeComponent& O
 
 
 	EnemyController = Cast<AShooterAIController>(OwnerComp.GetOwner());
-	if (!EnemyController) return;
+	
+	if (!EnemyController)
+	{
+		return;
+	}
 
 	EnemyCharacter = Cast<AShooterAICharacter>(EnemyController->GetPawn());
-	if (!EnemyCharacter) return;
+
+	if (!EnemyCharacter)
+	{
+		return;
+	}
 }
 
 void UBTService_UpdatePlayerLocation::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DeltaSeconds)
 {
 	Super::TickNode(OwnerComp, NodeMemory, DeltaSeconds);
 
-	if (!EnemyController || !EnemyCharacter) return;
+	if (!EnemyController || !EnemyCharacter)
+	{
+		return;
+	}
 
 	UBlackboardComponent* Blackboard = OwnerComp.GetBlackboardComponent();
-	if (!Blackboard) return;
+	
+	if (!Blackboard)
+	{
+		return;
+	}
 
 	AShooterPlayerCharacter* PlayerTarget = Cast<AShooterPlayerCharacter>(Blackboard->GetValueAsObject("PlayerActor"));
-	if (!PlayerTarget) return;
+	
+	if (!PlayerTarget)
+	{
+		return;
+	}
 
 	Blackboard->SetValueAsVector(GetSelectedBlackboardKey(), PlayerTarget->GetActorLocation());
 }
