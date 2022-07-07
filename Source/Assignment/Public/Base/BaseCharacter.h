@@ -13,6 +13,7 @@ class UAbilitySystemComponent;
 class UCharacterAbilitySystemComponent;
 class UGameplayEffect;
 class UCharacterAttributeSet;
+class USoundCue;
 
 /*
 * The Base Class of all Characters that can be found in the game. Contains basic logic every character should have
@@ -82,4 +83,9 @@ private:
 	UPROPERTY(VisibleAnywhere)
 	UCharacterAttributeSet* CharacterAttributes;
 
+	UPROPERTY(EditDefaultsOnly)
+	USoundCue* DieSound;
+
+	UPROPERTY(EditDefaultsOnly)
+	USoundCue* HitSound;
 };

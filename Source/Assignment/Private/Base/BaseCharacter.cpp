@@ -7,6 +7,8 @@
 #include "Abilities/CharacterAbilitySystemComponent.h"
 #include "GameplayEffect.h"
 #include "Abilities/CharacterAttributeSet.h"
+#include "Sound/SoundCue.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 ABaseCharacter::ABaseCharacter()
@@ -173,10 +175,24 @@ void ABaseCharacter::HandleHit(const FHitResult& ShootResult)
 	GameplayContextHandle.AddSourceObject(this);
 
 	ExecutorAbilitySystem->ApplyGameplayEffectToTarget(DamageEffect, HitAbilitySystem, 1.f, GameplayContextHandle);
+
+	if (!HitSound)
+	{
+		return;
+	}
+
+	UGameplayStatics::PlaySoundAtLocation(GetWorld(), HitSound, HitCharacter->GetActorLocation());
 }
 
 void ABaseCharacter::Die()
 {
+
+	if (!DieSound)
+	{
+		return;
+	}
+
+	UGameplayStatics::PlaySoundAtLocation(GetWorld(), DieSound, GetActorLocation());
 }
 
 AGunBase* ABaseCharacter::GetGunComponent() const

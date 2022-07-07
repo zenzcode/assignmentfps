@@ -23,6 +23,12 @@ public:
 	// Sets default values for this character's properties
 	AShooterPlayerCharacter();
 
+	/**
+	* Changes an Input Axis Value
+	* 
+	* @param Axis - The Axis to Change
+	* @param Value - The new Value
+	*/
 	void ChangeInputAxis(const EInputAxisChange Axis, const float Value);
 
 	virtual void HandleHit(const FHitResult& ShootResult) override;

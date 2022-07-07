@@ -24,7 +24,7 @@ public:
 	APuncherShooterAICharacter();
 	void Punch();
 
-	void SetPunching(bool bPunching);
+	void SetPunching(const bool bPunching);
 	bool IsPunching() const;
 
 	UFUNCTION()

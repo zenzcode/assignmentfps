@@ -75,7 +75,7 @@ void APuncherShooterAICharacter::PunchCollision(UPrimitiveComponent* OverlappedC
 	UGameplayStatics::SpawnSoundAtLocation(GetWorld(), PunchSound, HitPlayer->GetActorLocation());
 }
 
-void APuncherShooterAICharacter::SetPunching(bool bPunching)
+void APuncherShooterAICharacter::SetPunching(const bool bPunching)
 {
 	this->bIsPunching = bPunching;
 }
