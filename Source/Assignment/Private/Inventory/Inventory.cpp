@@ -18,12 +18,22 @@ void UInventory::BeginPlay()
 {
 	Super::BeginPlay();
 
-	
+	ItemPickUp.AddDynamic(this, &UInventory::AddItem);
 }
 
 void UInventory::AddItem(AGunBase* Gun)
 {
+	if (Guns.Num() >= MaxGuns)
+	{
+		return;
+	}
 
+	if (!Gun)
+	{
+		return;
+	}
+
+	Guns.Push(Gun);
 }
 
 

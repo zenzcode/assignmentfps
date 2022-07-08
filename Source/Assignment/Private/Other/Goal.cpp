@@ -17,12 +17,6 @@ AGoal::AGoal()
 		GoalCollision = CreateDefaultSubobject<UBoxComponent>(TEXT("Collision"));
 		RootComponent = GoalCollision;
 	}
-}
-
-// Called when the game starts or when spawned
-void AGoal::BeginPlay()
-{
-	Super::BeginPlay();
 
 	GoalCollision->OnComponentBeginOverlap.AddDynamic(this, &AGoal::OnCollisionOccured);
 }

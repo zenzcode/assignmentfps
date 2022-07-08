@@ -13,7 +13,8 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE(FReloadRequired);
 class USkeletalMeshComponent;
 class UGameplayEffect;
 class USoundCue;
-
+class AGunPickupable;
+class UNiagaraSystem;
 
 /*
 * The Base Class of a Gun.
@@ -31,7 +32,7 @@ public:
 
 	FHitResult Shoot();
 
-	UGameplayEffect* GetWeaponDamageEffect();
+	UGameplayEffect* GetWeaponDamageEffect() const;
 
 	UFUNCTION(BlueprintCallable)
 	float GetMaxAmmo() const;
@@ -49,21 +50,25 @@ public:
 	UPROPERTY(EditDefaultsOnly)
 	USoundCue* ShootSound;
 
-	UPROPERTY(EditDefaultsOnly)
-	float ShootRange;
-
-	UPROPERTY(EditDefaultsOnly)
-	float MaxAmmo;
-
-	UPROPERTY(VisibleAnywhere)
-	float Ammo;
-
 	UPROPERTY()
 	bool bReloading;
 
 	UPROPERTY()
 	FReloadRequired ReloadRequired;
 
+protected:
+	UPROPERTY(EditDefaultsOnly)
+	float MaxAmmo;
+
+	UPROPERTY(VisibleAnywhere)
+	float Ammo;
+
+	UPROPERTY(EditDefaultsOnly)
+	float ShootRange;
+
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UGameplayEffect> WeaponDamageEffect;
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<AGunPickupable> PickupableGun;
 };

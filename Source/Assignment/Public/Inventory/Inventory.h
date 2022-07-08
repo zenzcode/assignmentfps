@@ -8,6 +8,10 @@
 
 class AGunBase;
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FItemPickedUp, AGunBase*, PickedUpGun);
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FItemDropRequested, AGunBase*, GunToDrop);
+
 /**
 * Class that handles the Inventory of a Character
 */
@@ -20,12 +24,21 @@ public:
 	// Sets default values for this component's properties
 	UInventory();
 
-	void AddItem(AGunBase* Gun);
-	void RemoveItem(AGunBase* Gun);
+	UPROPERTY()
+	FItemPickedUp ItemPickUp;
+
+	UPROPERTY()
+	FItemDropRequested ItemDropRequest;
 
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
+
+	UFUNCTION()
+	void AddItem(AGunBase* Gun);
+
+	UFUNCTION()
+	void RemoveItem(AGunBase* Gun);
 
 private:
 	UPROPERTY()
@@ -33,6 +46,4 @@ private:
 
 	UPROPERTY(EditDefaultsOnly)
 	float MaxGuns;
-
-		
 };

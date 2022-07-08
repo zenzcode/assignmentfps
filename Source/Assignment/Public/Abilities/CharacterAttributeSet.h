@@ -23,7 +23,7 @@ public:
 	*/
 	virtual void PostGameplayEffectExecute(const struct FGameplayEffectModCallbackData& Data) override;
 
-public:
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+private:
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = true))
 	FGameplayAttributeData Health;
 };

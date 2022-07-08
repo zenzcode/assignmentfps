@@ -22,14 +22,17 @@ public:
 
 	void NativeInitializeAnimation() override;
 
+
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float Speed;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float Direction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		bool bAttacking;
+
+private:
 	ABaseCharacter* OwningEnemy;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	float Speed;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	float Direction;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	bool bAttacking;
 };

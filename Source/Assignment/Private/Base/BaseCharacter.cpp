@@ -9,6 +9,7 @@
 #include "Abilities/CharacterAttributeSet.h"
 #include "Sound/SoundCue.h"
 #include "Kismet/GameplayStatics.h"
+#include "NiagaraSystem.h"
 
 // Sets default values
 ABaseCharacter::ABaseCharacter()

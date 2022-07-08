@@ -10,6 +10,9 @@
 #include "Sound/SoundCue.h"
 #include "GameMode/ShooterGameMode.h"
 #include "Engine/Engine.h"
+#include "Components/PickupableComponent.h"
+#include "Enemy/ShooterAICharacter.h"
+
 
 // Sets default values
 AGunBase::AGunBase()
@@ -25,7 +28,7 @@ AGunBase::AGunBase()
 		GunMesh->SetupAttachment(GetRootComponent());
 	}
 
-	ShootRange = 100;
+	ShootRange = 100000;
 }
 
 FHitResult AGunBase::Shoot()
@@ -90,6 +93,7 @@ void AGunBase::ResetAmmo()
 
 void AGunBase::BeginPlay()
 {
+	Super::BeginPlay();
 	ResetAmmo();
 }
 
@@ -103,7 +107,7 @@ float AGunBase::GetAmmoLeft() const
 	return Ammo;
 }
 
-UGameplayEffect* AGunBase::GetWeaponDamageEffect()
+UGameplayEffect* AGunBase::GetWeaponDamageEffect() const
 {
 	return WeaponDamageEffect.GetDefaultObject();
 }

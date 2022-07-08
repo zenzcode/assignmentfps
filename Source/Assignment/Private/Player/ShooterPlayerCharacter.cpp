@@ -28,6 +28,12 @@ AShooterPlayerCharacter::AShooterPlayerCharacter() : ABaseCharacter()
 
 void AShooterPlayerCharacter::ChangeInputAxis(const EInputAxisChange Axis, const float Value)
 {
+
+	if (Value == 0.f)
+	{
+		return;
+	}
+
 	switch (Axis)
 	{
 	case EInputAxisChange::EMoveForwards:
