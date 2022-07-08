@@ -9,15 +9,8 @@
 UInventory::UInventory()
 {
 	PrimaryComponentTick.bCanEverTick = false;
-
 	MaxGuns = 3;
-}
-
-
-// Called when the game starts
-void UInventory::BeginPlay()
-{
-	Super::BeginPlay();
+	LastSlot = EInventorySlot::EIS_None;
 
 	ItemPickUp.AddDynamic(this, &UInventory::AddItem);
 }
@@ -41,6 +34,49 @@ void UInventory::AddItem(UClass* Gun)
 void UInventory::RemoveItem(AGunBase* Gun)
 {
 
+}
+
+AGunBase* UInventory::SelectItemFromSlot(const EInventorySlot Slot)
+{
+
+	uint8 LastSlotIndex = static_cast<uint8>(LastSlot);
+	if (Slot == LastSlot)
+	{
+		return Guns[LastSlotIndex];
+	}
+
+	uint8 SlotIndex = static_cast<uint8>(Slot);
+
+	if (!Guns[SlotIndex])
+	{
+		LastSlot = EInventorySlot::EIS_Slot1;
+		return Guns[0];
+	}
+
+
+	if (LastSlot != EInventorySlot::EIS_None)
+	{
+		AGunBase* LastSlotGun = Guns[LastSlotIndex];
+		if (!LastSlotGun)
+		{
+			LastSlot = EInventorySlot::EIS_Slot1;
+			return Guns[0];
+		}
+
+		LastSlotGun->SetActorHiddenInGame(true);
+	}
+
+	AGunBase* SelectedGun = Guns[SlotIndex];
+
+	if (!SelectedGun)
+	{
+		LastSlot = EInventorySlot::EIS_Slot1;
+		return Guns[0];
+	}
+
+	SelectedGun->SetActorHiddenInGame(false);
+	LastSlot = Slot;
+	return SelectedGun;
 }
 
 void UInventory::SpawnGunForPlayer(UClass* Gun)

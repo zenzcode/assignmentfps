@@ -7,8 +7,10 @@
 #include "ShooterPlayerCharacter.generated.h"
 
 enum class EInputAxisChange : uint8;
+enum class EInventorySlot : uint8;
 class UCameraComponent;
 class UGameplayEffect;
+class UInventory;
 
 
 /**
@@ -22,6 +24,8 @@ class ASSIGNMENT_API AShooterPlayerCharacter : public ABaseCharacter
 public:
 	// Sets default values for this character's properties
 	AShooterPlayerCharacter();
+
+	virtual void PossessedBy(AController* NewController) override;
 
 	/**
 	* Changes an Input Axis Value
@@ -44,4 +48,6 @@ private:
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UGameplayEffect> HealEffect;
 
+	UPROPERTY(EditDefaultsOnly)
+	UInventory* PlayerInventory;
 };

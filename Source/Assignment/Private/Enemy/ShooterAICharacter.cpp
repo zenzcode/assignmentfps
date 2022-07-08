@@ -29,6 +29,22 @@ AShooterAICharacter::AShooterAICharacter() : ABaseCharacter()
 	GetCharacterMovement()->RotationRate = FRotator(0.f, 180.f, 0.f);
 }
 
+void AShooterAICharacter::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+
+	if (ActivePlayerGun == nullptr)
+	{
+		FActorSpawnParameters GunSpawnParameters;
+		GunSpawnParameters.Owner = this;
+
+		ActivePlayerGun = GetWorld()->SpawnActor<AGunBase>(GetDefaultPlayerGun(), GunSpawnParameters);
+		ActivePlayerGun->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("GripPoint"));
+
+		ActivePlayerGun->ReloadRequired.AddDynamic(this, &ABaseCharacter::ReloadGun);
+	}
+}
+
 void AShooterAICharacter::PerceptionUpdated(AActor* Actor, FAIStimulus Stimulus)
 {
 	if (IsCharacterDead())

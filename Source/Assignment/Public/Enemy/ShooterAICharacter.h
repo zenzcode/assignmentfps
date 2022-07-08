@@ -23,6 +23,8 @@ class ASSIGNMENT_API AShooterAICharacter : public ABaseCharacter
 public:
 	AShooterAICharacter();
 
+	virtual void PossessedBy(AController* NewController) override;
+
 	UFUNCTION()
 	void PerceptionUpdated(AActor* Actor, FAIStimulus Stimulus);
 

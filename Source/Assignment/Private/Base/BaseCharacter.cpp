@@ -33,17 +33,6 @@ void ABaseCharacter::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);
 
-	if (ActivePlayerGun == nullptr)
-	{
-		FActorSpawnParameters GunSpawnParameters;
-		GunSpawnParameters.Owner = this;
-
-		ActivePlayerGun = GetWorld()->SpawnActor<AGunBase>(DefaultPlayerGun, GunSpawnParameters);
-		ActivePlayerGun->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("GripPoint"));
-
-		ActivePlayerGun->ReloadRequired.AddDynamic(this, &ABaseCharacter::ReloadGun);
-	}
-
 	if (!AbilitySystem)
 	{
 		return;
@@ -214,4 +203,9 @@ UAbilitySystemComponent* ABaseCharacter::GetAbilitySystemComponent() const
 bool ABaseCharacter::IsCharacterDead() const
 {
 	return bIsDead;
+}
+
+TSubclassOf<AGunBase> ABaseCharacter::GetDefaultPlayerGun() const
+{
+	return DefaultPlayerGun;
 }

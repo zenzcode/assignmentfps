@@ -10,6 +10,8 @@
 #include "GameMode/ShooterGameMode.h"
 #include "GameplayEffect.h"
 #include "AbilitySystemComponent.h"
+#include "Inventory/Inventory.h"
+#include "Base/GunBase.h"
 
 // Sets default values
 AShooterPlayerCharacter::AShooterPlayerCharacter() : ABaseCharacter()
@@ -24,6 +26,32 @@ AShooterPlayerCharacter::AShooterPlayerCharacter() : ABaseCharacter()
 		FirstPersonCamera->bUsePawnControlRotation = true;
 		GetMesh()->SetupAttachment(FirstPersonCamera);
 	}
+
+	if (PlayerInventory == nullptr)
+	{
+		PlayerInventory = CreateDefaultSubobject<UInventory>(TEXT("Player Inventory"));
+	}
+}
+
+
+void AShooterPlayerCharacter::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+
+	if (!PlayerInventory)
+	{
+		return;
+	}
+
+	TSubclassOf<AGunBase> DefaultGun = GetDefaultPlayerGun();
+
+	if (!DefaultGun)
+	{
+		return;
+	}
+
+	PlayerInventory->ItemPickUp.Broadcast(DefaultGun.Get());
+	ActivePlayerGun = PlayerInventory->SelectItemFromSlot(EInventorySlot::EIS_Slot1);
 }
 
 void AShooterPlayerCharacter::ChangeInputAxis(const EInputAxisChange Axis, const float Value)
@@ -114,5 +142,4 @@ void AShooterPlayerCharacter::Heal() const
 	GameplayContextHandle.AddSourceObject(this);
 
 	PlayerAbilitySystem->ApplyGameplayEffectToSelf(HealEffect.GetDefaultObject(), 1.f, GameplayContextHandle);
-
 }

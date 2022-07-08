@@ -46,10 +46,17 @@ public:
 	*/
 	virtual void Die();
 
+	/**
+	* Event gets fired when we know that a reload of our weapon is required
+	*/
+	UFUNCTION()
+	void ReloadGun();
+
 
 	UAnimMontage* GetFireReloadMontage() const;
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	bool IsCharacterDead() const;
+	TSubclassOf<AGunBase> GetDefaultPlayerGun() const;
 
 protected:
 	// Called when the game starts or when spawned
@@ -57,9 +64,6 @@ protected:
 
 	UFUNCTION(BlueprintCallable)
 	AGunBase* GetGunComponent() const;
-
-	UFUNCTION()
-	void ReloadGun();
 public:
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UGameplayEffect> DefaultsEffect;
@@ -68,12 +72,13 @@ protected:
 	UPROPERTY(VisibleAnywhere)
 	bool bIsDead;
 
-private:
-	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<AGunBase> DefaultPlayerGun;
 
 	UPROPERTY()
 	AGunBase* ActivePlayerGun;
+
+private:
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<AGunBase> DefaultPlayerGun;
 
 	UPROPERTY(EditDefaultsOnly)
 	UAnimMontage* FireReloadMontage;
