@@ -8,7 +8,7 @@
 
 class AGunBase;
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FItemPickedUp, AGunBase*, PickedUpGun);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FItemPickedUp, UClass*, PickedUpGun);
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FItemDropRequested, AGunBase*, GunToDrop);
 
@@ -30,12 +30,15 @@ public:
 	UPROPERTY()
 	FItemDropRequested ItemDropRequest;
 
+private:
+	void SpawnGunForPlayer(UClass* Gun);
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
 	UFUNCTION()
-	void AddItem(AGunBase* Gun);
+	void AddItem(UClass* Gun);
 
 	UFUNCTION()
 	void RemoveItem(AGunBase* Gun);

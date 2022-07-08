@@ -21,22 +21,11 @@ UPickupableComponent::UPickupableComponent()
 	InteractionBox->OnComponentBeginOverlap.AddDynamic(this, &UPickupableComponent::OnCollisionOccured);
 }
 
-
-// Called when the game starts
-void UPickupableComponent::BeginPlay()
-{
-	Super::BeginPlay();
-
-	if (PickupGun == nullptr && GetOwner() != nullptr)
-	{
-		PickupGun = Cast<AGunBase>(GetOwner());
-	}
-}
-
 void UPickupableComponent::OnCollisionOccured(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	AShooterPlayerCharacter* CollidedPlayer = Cast<AShooterPlayerCharacter>(OtherActor);
 
+	UE_LOG(LogTemp, Warning, TEXT("COLLIDED"));
 
 	if (!CollidedPlayer)
 	{
@@ -55,7 +44,12 @@ void UPickupableComponent::OnCollisionOccured(UPrimitiveComponent* OverlappedCom
 		return;
 	}
 
-	OwnerInventory->ItemPickUp.Broadcast(PickupGun);
+	OwnerInventory->ItemPickUp.Broadcast(PickupGun.Get());
 
-	PickupGun->Destroy();
+	if (!GetOwner())
+	{
+		return;
+	}
+
+	GetOwner()->Destroy();
 }
