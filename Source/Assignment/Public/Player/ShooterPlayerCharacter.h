@@ -41,6 +41,11 @@ public:
 
 	void Heal() const;
 
+	void SelectInventorySlot(const EInventorySlot NewSlot);
+
+private:
+	void ChangeInventorySlot(float Value);
+
 private:
 	UPROPERTY(VisibleAnywhere)
 	UCameraComponent* FirstPersonCamera;

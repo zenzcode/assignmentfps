@@ -39,18 +39,22 @@ void UInventory::RemoveItem(AGunBase* Gun)
 AGunBase* UInventory::SelectItemFromSlot(const EInventorySlot Slot)
 {
 
-	uint8 LastSlotIndex = static_cast<uint8>(LastSlot);
+	const uint8 LastSlotIndex = static_cast<uint8>(LastSlot);
 	if (Slot == LastSlot)
 	{
 		return Guns[LastSlotIndex];
 	}
 
-	uint8 SlotIndex = static_cast<uint8>(Slot);
+	const uint8 SlotIndex = static_cast<uint8>(Slot);
+
+	if (SlotIndex >= Guns.Num())
+	{
+		return Guns[LastSlotIndex];
+	}
 
 	if (!Guns[SlotIndex])
 	{
-		LastSlot = EInventorySlot::EIS_Slot1;
-		return Guns[0];
+		return Guns[LastSlotIndex];
 	}
 
 
@@ -70,13 +74,52 @@ AGunBase* UInventory::SelectItemFromSlot(const EInventorySlot Slot)
 
 	if (!SelectedGun)
 	{
-		LastSlot = EInventorySlot::EIS_Slot1;
-		return Guns[0];
+		return Guns[LastSlotIndex];
 	}
 
 	SelectedGun->SetActorHiddenInGame(false);
 	LastSlot = Slot;
 	return SelectedGun;
+}
+
+AGunBase* UInventory::GetNextSlotItem()
+{
+	if (LastSlot == EInventorySlot::EIS_None)
+	{
+		return SelectItemFromSlot(EInventorySlot::EIS_Slot1);
+	}
+
+	const uint8 CurrentSlotIndex = static_cast<uint8>(LastSlot);
+	uint8 NewSlotIndex = CurrentSlotIndex + 1;
+
+	if (NewSlotIndex >= MaxGuns)
+	{
+		NewSlotIndex = 0;
+	}
+
+	EInventorySlot NewSlot = static_cast<EInventorySlot>(NewSlotIndex);
+
+	return SelectItemFromSlot(NewSlot);
+}
+
+AGunBase* UInventory::GetPreviousSlotItem()
+{
+	if (LastSlot == EInventorySlot::EIS_None)
+	{
+		return SelectItemFromSlot(EInventorySlot::EIS_Slot1);
+	}
+
+	const uint8 CurrentSlotIndex = static_cast<uint8>(LastSlot);
+	uint8 NewSlotIndex = CurrentSlotIndex - 1;
+
+	if (NewSlotIndex < 0)
+	{
+		NewSlotIndex = MaxGuns - 1;
+	}
+
+	EInventorySlot NewSlot = static_cast<EInventorySlot>(NewSlotIndex);
+
+	return SelectItemFromSlot(NewSlot);
 }
 
 void UInventory::SpawnGunForPlayer(UClass* Gun)

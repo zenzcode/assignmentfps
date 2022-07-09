@@ -5,7 +5,7 @@
 #include "Components/InputComponent.h"
 #include "Blueprint/UserWidget.h"
 #include "Player/ShooterPlayerCharacter.h"
-#include "HAL/IConsoleManager.h"
+#include "Inventory/Inventory.h"
 
 AShooterPlayerController::AShooterPlayerController() 
 {
@@ -42,11 +42,16 @@ void AShooterPlayerController::SetupInputComponent()
 	InputComponent->BindAxis(TEXT("MoveRight"), this, &AShooterPlayerController::SendMoveRightToCharacter);
 	InputComponent->BindAxis(TEXT("LookRight"), this, &AShooterPlayerController::SendLookAroundToCharacter);
 	InputComponent->BindAxis(TEXT("LookUp"), this, &AShooterPlayerController::SendLookUpToCharacter);
+	InputComponent->BindAxis(TEXT("InventorySlotChange"), this, &AShooterPlayerController::SendInventorySlotChangeToCharacter);
 
 	InputComponent->BindAction(TEXT("Jump"), EInputEvent::IE_Pressed, this, &AShooterPlayerController::Jump);
 	InputComponent->BindAction(TEXT("Jump"), EInputEvent::IE_Released, this, &AShooterPlayerController::JumpEnd);
 
 	InputComponent->BindAction(TEXT("Fire"), EInputEvent::IE_Pressed, this, &AShooterPlayerController::Fire);
+
+	InputComponent->BindAction(TEXT("InventorySlot1"), EInputEvent::IE_Pressed, this, &AShooterPlayerController::SelectInventorySlotOne);
+	InputComponent->BindAction(TEXT("InventorySlot2"), EInputEvent::IE_Pressed, this, &AShooterPlayerController::SelectInventorySlotTwo);
+	InputComponent->BindAction(TEXT("InventorySlot3"), EInputEvent::IE_Pressed, this, &AShooterPlayerController::SelectInventorySlotThree);
 }
 
 void AShooterPlayerController::SendMoveForwardToCharacter(float Value)
@@ -97,6 +102,18 @@ void AShooterPlayerController::SendLookUpToCharacter(float Value)
 	ActiveCharacter->ChangeInputAxis(EInputAxisChange::ELookY, Value);
 }
 
+void AShooterPlayerController::SendInventorySlotChangeToCharacter(float Value)
+{
+	AShooterPlayerCharacter* ActiveCharacter = GetPlayerCharacter();
+
+	if (!ActiveCharacter)
+	{
+		return;
+	}
+
+	ActiveCharacter->ChangeInputAxis(EInputAxisChange::EInventorySlotChange, Value);
+}
+
 void AShooterPlayerController::Jump()
 {
 	AShooterPlayerCharacter* ActiveCharacter = GetPlayerCharacter();
@@ -131,6 +148,42 @@ void AShooterPlayerController::Fire()
 	}
 
 	ActiveCharacter->ShootGun();
+}
+
+void AShooterPlayerController::SelectInventorySlotOne()
+{
+	AShooterPlayerCharacter* ActiveCharacter = GetPlayerCharacter();
+
+	if (!ActiveCharacter)
+	{
+		return;
+	}
+
+	ActiveCharacter->SelectInventorySlot(EInventorySlot::EIS_Slot1);
+}
+
+void AShooterPlayerController::SelectInventorySlotTwo()
+{
+	AShooterPlayerCharacter* ActiveCharacter = GetPlayerCharacter();
+
+	if (!ActiveCharacter)
+	{
+		return;
+	}
+
+	ActiveCharacter->SelectInventorySlot(EInventorySlot::EIS_Slot2);
+}
+
+void AShooterPlayerController::SelectInventorySlotThree()
+{
+	AShooterPlayerCharacter* ActiveCharacter = GetPlayerCharacter();
+
+	if (!ActiveCharacter)
+	{
+		return;
+	}
+
+	ActiveCharacter->SelectInventorySlot(EInventorySlot::EIS_Slot3);
 }
 
 void AShooterPlayerController::GameOver(const bool bWin)

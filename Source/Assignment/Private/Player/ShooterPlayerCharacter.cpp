@@ -76,6 +76,9 @@ void AShooterPlayerCharacter::ChangeInputAxis(const EInputAxisChange Axis, const
 	case EInputAxisChange::ELookY:
 		AddControllerPitchInput(Value);
 		break;
+	case EInputAxisChange::EInventorySlotChange:
+		ChangeInventorySlot(Value);
+		break;
 	}
 }
 
@@ -125,7 +128,6 @@ void AShooterPlayerCharacter::Die()
 
 void AShooterPlayerCharacter::Heal() const
 {
-
 	if (!HealEffect)
 	{
 		return;
@@ -142,4 +144,21 @@ void AShooterPlayerCharacter::Heal() const
 	GameplayContextHandle.AddSourceObject(this);
 
 	PlayerAbilitySystem->ApplyGameplayEffectToSelf(HealEffect.GetDefaultObject(), 1.f, GameplayContextHandle);
+}
+
+void AShooterPlayerCharacter::SelectInventorySlot(const EInventorySlot NewSlot)
+{
+	if (NewSlot == EInventorySlot::EIS_None)
+	{
+		return;
+	}
+
+	ActivePlayerGun = PlayerInventory->SelectItemFromSlot(NewSlot);
+}
+
+void AShooterPlayerCharacter::ChangeInventorySlot(float Value)
+{
+	if (Value > 0.f)
+	{
+	}
 }

@@ -34,6 +34,10 @@ public:
 	UInventory();
 
 	AGunBase* SelectItemFromSlot(const EInventorySlot Slot);
+
+	AGunBase* GetNextSlotItem();
+
+	AGunBase* GetPreviousSlotItem();
 public:
 	UPROPERTY(EditDefaultsOnly)
 	FItemPickedUp ItemPickUp;

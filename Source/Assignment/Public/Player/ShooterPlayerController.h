@@ -12,9 +12,11 @@ enum class EInputAxisChange : uint8
 	EMoveForwards = 1 << 0,
 	EMoveSideways = 1 << 1,
 	ELookX = 1 << 2,
-	ELookY = 1 << 3
+	ELookY = 1 << 3,
+	EInventorySlotChange = 1 << 4
 };
 
+enum class EInventorySlot : uint8;
 class UInputComponent;
 class AShooterPlayerCharacter;
 class UUserWidget;
@@ -50,6 +52,7 @@ private:
 	void SendMoveRightToCharacter(float Value);
 	void SendLookAroundToCharacter(float Value);
 	void SendLookUpToCharacter(float Value);
+	void SendInventorySlotChangeToCharacter(float Value);
 
 	/*
 	* Action Handling Functions
@@ -57,6 +60,9 @@ private:
 	void Jump();
 	void JumpEnd();
 	void Fire();
+	void SelectInventorySlotOne();
+	void SelectInventorySlotTwo();
+	void SelectInventorySlotThree();
 
 public:
 	UPROPERTY(EditDefaultsOnly)
