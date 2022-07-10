@@ -36,7 +36,7 @@ FHitResult AGunBase::Shoot()
 	FHitResult ShootHit = {};
 
 	Ammo -= 1.f;
-	if (Ammo < 0 && !bReloading) {
+	if (Ammo <= 0 && !bReloading) {
 		Ammo = 0.f;
 		bReloading = true;
 		ReloadRequired.Broadcast();
@@ -110,4 +110,9 @@ float AGunBase::GetAmmoLeft() const
 UGameplayEffect* AGunBase::GetWeaponDamageEffect() const
 {
 	return WeaponDamageEffect.GetDefaultObject();
+}
+
+TSubclassOf<AGunPickupable> AGunBase::GetPickupableGun() const
+{
+	return PickupableGun;
 }

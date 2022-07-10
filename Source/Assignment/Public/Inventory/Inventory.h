@@ -7,10 +7,11 @@
 #include "Inventory.generated.h"
 
 class AGunBase;
+class AShooterPlayerCharacter;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FItemPickedUp, UClass*, PickedUpGun);
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FItemDropRequested, AGunBase*, GunToDrop);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FItemDropRequested);
 
 UENUM()
 enum class EInventorySlot : uint8
@@ -38,6 +39,7 @@ public:
 	AGunBase* GetNextSlotItem();
 
 	AGunBase* GetPreviousSlotItem();
+
 public:
 	UPROPERTY(EditDefaultsOnly)
 	FItemPickedUp ItemPickUp;
@@ -48,13 +50,16 @@ public:
 private:
 	void SpawnGunForPlayer(UClass* Gun);
 
-protected:
+	void RespawnPickupable(const uint8 GunIndex);
 
+protected:
 	UFUNCTION()
 	void AddItem(UClass* Gun);
 
 	UFUNCTION()
-	void RemoveItem(AGunBase* Gun);
+	void RemoveItem();
+
+	virtual void BeginPlay() override;
 
 private:
 	UPROPERTY()
@@ -65,4 +70,10 @@ private:
 
 	UPROPERTY()
 	EInventorySlot LastSlot;
+
+	UPROPERTY()
+	AShooterPlayerCharacter* OwningPlayer;
+
+	UPROPERTY(EditDefaultsOnly)
+	float ThrowReach;
 };

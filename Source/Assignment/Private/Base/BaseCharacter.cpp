@@ -25,6 +25,8 @@ ABaseCharacter::ABaseCharacter()
 	{
 		CharacterAttributes = CreateDefaultSubobject<UCharacterAttributeSet>(TEXT("Character Attributes"));
 	}
+
+	GunInitialized.AddDynamic(this, &ABaseCharacter::BindGunDelegate);
 }
 
 
@@ -183,6 +185,12 @@ void ABaseCharacter::Die()
 	}
 
 	UGameplayStatics::PlaySoundAtLocation(GetWorld(), DieSound, GetActorLocation());
+}
+
+void ABaseCharacter::BindGunDelegate()
+{
+	if (ActivePlayerGun->ReloadRequired.IsBound()) return;
+	ActivePlayerGun->ReloadRequired.AddDynamic(this, &ABaseCharacter::ReloadGun);
 }
 
 AGunBase* ABaseCharacter::GetGunComponent() const

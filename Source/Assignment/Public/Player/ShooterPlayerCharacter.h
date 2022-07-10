@@ -42,7 +42,8 @@ public:
 	void Heal() const;
 
 	void SelectInventorySlot(const EInventorySlot NewSlot);
-
+	
+	void HandleInventoryDrop() const;
 private:
 	void ChangeInventorySlot(float Value);
 

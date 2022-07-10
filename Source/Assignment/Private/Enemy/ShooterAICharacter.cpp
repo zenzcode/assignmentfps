@@ -41,7 +41,7 @@ void AShooterAICharacter::PossessedBy(AController* NewController)
 		ActivePlayerGun = GetWorld()->SpawnActor<AGunBase>(GetDefaultPlayerGun(), GunSpawnParameters);
 		ActivePlayerGun->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("GripPoint"));
 
-		ActivePlayerGun->ReloadRequired.AddDynamic(this, &ABaseCharacter::ReloadGun);
+		GunInitialized.Broadcast();
 	}
 }
 

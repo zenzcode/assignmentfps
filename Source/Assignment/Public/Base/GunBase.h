@@ -40,6 +40,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 	float GetAmmoLeft() const;
 
+	TSubclassOf<AGunPickupable> GetPickupableGun() const;
+
 protected:
 	virtual void BeginPlay() override;
 

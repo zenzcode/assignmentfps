@@ -13,6 +13,10 @@ AGunPickupable::AGunPickupable()
 	if (GunMesh == nullptr)
 	{
 		GunMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Gun Mesh"));
+		GunMesh->SetSimulatePhysics(true);
+		GunMesh->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+		GunMesh->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Block);
+		GunMesh->SetCollisionResponseToChannel(ECollisionChannel::ECC_Pawn, ECollisionResponse::ECR_Overlap);
 		SetRootComponent(GunMesh);
 	}
 

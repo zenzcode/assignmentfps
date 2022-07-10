@@ -52,6 +52,8 @@ void AShooterPlayerController::SetupInputComponent()
 	InputComponent->BindAction(TEXT("InventorySlot1"), EInputEvent::IE_Pressed, this, &AShooterPlayerController::SelectInventorySlotOne);
 	InputComponent->BindAction(TEXT("InventorySlot2"), EInputEvent::IE_Pressed, this, &AShooterPlayerController::SelectInventorySlotTwo);
 	InputComponent->BindAction(TEXT("InventorySlot3"), EInputEvent::IE_Pressed, this, &AShooterPlayerController::SelectInventorySlotThree);
+
+	InputComponent->BindAction(TEXT("DropActiveInventoryItem"), EInputEvent::IE_Pressed, this, &AShooterPlayerController::DropItem);
 }
 
 void AShooterPlayerController::SendMoveForwardToCharacter(float Value)
@@ -184,6 +186,18 @@ void AShooterPlayerController::SelectInventorySlotThree()
 	}
 
 	ActiveCharacter->SelectInventorySlot(EInventorySlot::EIS_Slot3);
+}
+
+void AShooterPlayerController::DropItem()
+{
+	AShooterPlayerCharacter* ActiveCharacter = GetPlayerCharacter();
+
+	if (!ActiveCharacter)
+	{
+		return;
+	}
+
+	ActiveCharacter->HandleInventoryDrop();
 }
 
 void AShooterPlayerController::GameOver(const bool bWin)

@@ -63,6 +63,7 @@ private:
 	void SelectInventorySlotOne();
 	void SelectInventorySlotTwo();
 	void SelectInventorySlotThree();
+	void DropItem();
 
 public:
 	UPROPERTY(EditDefaultsOnly)

@@ -7,6 +7,8 @@
 #include "AbilitySystemInterface.h"
 #include "BaseCharacter.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FActiveGunInitialized);
+
 class AGunBase;
 class UAnimMontage;
 class UAbilitySystemComponent;
@@ -64,6 +66,10 @@ protected:
 
 	UFUNCTION(BlueprintCallable)
 	AGunBase* GetGunComponent() const;
+
+private:
+	UFUNCTION()
+	void BindGunDelegate();
 public:
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UGameplayEffect> DefaultsEffect;
@@ -72,6 +78,8 @@ protected:
 	UPROPERTY(VisibleAnywhere)
 	bool bIsDead;
 
+	UPROPERTY()
+	FActiveGunInitialized GunInitialized;
 
 	UPROPERTY()
 	AGunBase* ActivePlayerGun;

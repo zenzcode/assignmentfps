@@ -52,12 +52,13 @@ void AShooterPlayerCharacter::PossessedBy(AController* NewController)
 
 	PlayerInventory->ItemPickUp.Broadcast(DefaultGun.Get());
 	ActivePlayerGun = PlayerInventory->SelectItemFromSlot(EInventorySlot::EIS_Slot1);
+	GunInitialized.Broadcast();
 }
 
 void AShooterPlayerCharacter::ChangeInputAxis(const EInputAxisChange Axis, const float Value)
 {
 
-	if (Value == 0.f)
+	if (FMath::IsNearlyZero(Value))
 	{
 		return;
 	}
@@ -154,11 +155,24 @@ void AShooterPlayerCharacter::SelectInventorySlot(const EInventorySlot NewSlot)
 	}
 
 	ActivePlayerGun = PlayerInventory->SelectItemFromSlot(NewSlot);
+	GunInitialized.Broadcast();
+}
+
+void AShooterPlayerCharacter::HandleInventoryDrop() const
+{
+	ActivePlayerGun->ReloadRequired.Clear();
+	PlayerInventory->ItemDropRequest.Broadcast();
 }
 
 void AShooterPlayerCharacter::ChangeInventorySlot(float Value)
 {
 	if (Value > 0.f)
 	{
+		ActivePlayerGun = PlayerInventory->GetPreviousSlotItem();
 	}
+	else
+	{
+		ActivePlayerGun = PlayerInventory->GetNextSlotItem();
+	}
+	GunInitialized.Broadcast();
 }
